@@ -1,18 +1,14 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>cuck.mom - About me</title>
-
   <meta property="og:type" content="personal profile">
   <meta property="og:title" content="@x.b.t">
   <meta property="og:description" content="unfortunately my hamster Rachid Johnson died meskien.">
   <meta property="og:url" content="https://cuck.mom/">
-  <meta property="og:image" content="https://i.pinimg.com/736x/c7/bb/4e/c7bb4ef758b0c1b1a378a68083c2daeb.jpg">
-
+  <meta property="og:image" content="https://i.pinimg.com/736x/c7/bb/4e/c7bb4ef758b0c1b1a378a68083c2daeb.jpg ">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -37,10 +33,6 @@
       transition: background 0.8s ease;
     }
 
-    /* =========================
-       SNOW
-       ========================= */
-
     #snow {
       position: fixed;
       inset: 0;
@@ -54,8 +46,7 @@
       top: -50px;
       border-radius: 50%;
       background: rgba(255,255,255,.8);
-      box-shadow:
-        0 0 15px 10px rgba(255,255,255,.35);
+      box-shadow: 0 0 15px 10px rgba(255,255,255,.35);
       animation: fall linear infinite;
     }
 
@@ -64,21 +55,15 @@
         transform: scale(0);
         top: -50px;
       }
-
       2% {
         transform: scale(1);
         top: -50px;
       }
-
       100% {
         transform: scale(0);
         top: 100%;
       }
     }
-
-    /* =========================
-       CARD
-       ========================= */
 
     .card {
       background: #2b2d31;
@@ -89,97 +74,32 @@
       position: relative;
       z-index: 1;
       border: 1px solid transparent;
-
-      box-shadow:
-        0 8px 32px rgba(0,0,0,.5);
-
-      transition:
-        border-color .3s ease,
-        box-shadow .3s ease,
-        transform .25s ease,
-        background .6s ease;
-
-      animation:
-        cardEnter .8s cubic-bezier(.2,.8,.2,1) both,
-        cardFloat 6s ease-in-out 1s infinite;
+      transition: border-color .3s ease, box-shadow .3s ease, transform .25s ease, background .6s ease;
+      box-shadow: 0 8px 32px rgba(0,0,0,.5);
     }
 
     .card:hover {
       border-color: #fff;
-
       box-shadow:
         0 0 0 1px #fff,
         0 0 24px rgba(255,255,255,.35),
         0 12px 40px rgba(0,0,0,.6);
-
       transform: translateY(-2px);
     }
-
-    @keyframes cardEnter {
-      0% {
-        opacity: 0;
-        transform: translateY(22px) scale(.97);
-        filter: blur(8px);
-      }
-
-      60% {
-        opacity: 1;
-        filter: blur(0);
-      }
-
-      100% {
-        transform: translateY(0) scale(1);
-      }
-    }
-
-    @keyframes cardFloat {
-      0%, 100% {
-        transform: translateY(0);
-      }
-
-      50% {
-        transform: translateY(-5px);
-      }
-    }
-
-    /* =========================
-       VIEWS
-       ========================= */
 
     .views {
       position: absolute;
       top: 14px;
       left: 14px;
-
       display: flex;
       align-items: center;
       gap: 5px;
-
       font-size: .78rem;
       color: rgba(255,255,255,.55);
-
       background: rgba(0,0,0,.25);
       padding: 4px 9px;
       border-radius: 20px;
-
       backdrop-filter: blur(4px);
-
-      box-shadow:
-        0 0 12px rgba(255,255,255,.025);
-
-      transition:
-        color .2s ease,
-        box-shadow .3s ease,
-        transform .2s ease;
-    }
-
-    .views:hover {
-      color: rgba(255,255,255,.85);
-
-      box-shadow:
-        0 0 14px rgba(255,255,255,.08);
-
-      transform: translateY(-1px);
     }
 
     .views svg {
@@ -188,50 +108,27 @@
       fill: currentColor;
     }
 
-    /* =========================
-       AUDIO
-       ========================= */
-
     .audio-toggle {
       position: absolute;
       top: 14px;
       right: 14px;
-
       width: 30px;
       height: 30px;
-
       border: none;
       border-radius: 50%;
-
       background: rgba(0,0,0,.25);
       color: rgba(255,255,255,.75);
-
       display: flex;
       align-items: center;
       justify-content: center;
-
       cursor: pointer;
-
       backdrop-filter: blur(4px);
-
-      box-shadow:
-        0 0 10px rgba(255,255,255,.02);
-
-      transition:
-        background .2s ease,
-        color .2s ease,
-        box-shadow .2s ease,
-        transform .2s ease;
+      transition: background .2s ease, color .2s ease;
     }
 
     .audio-toggle:hover {
       background: rgba(0,0,0,.4);
       color: #fff;
-
-      box-shadow:
-        0 0 14px rgba(255,255,255,.12);
-
-      transform: scale(1.08);
     }
 
     .audio-toggle svg {
@@ -244,357 +141,139 @@
       opacity: .45;
     }
 
-    /* =========================
-       AVATAR
-       ========================= */
-
     .avatar-wrap {
       position: relative;
-
       width: 96px;
       height: 96px;
-
       margin: 0 auto 18px;
-
       cursor: pointer;
-
-      animation:
-        avatarFloat 4s ease-in-out infinite;
-    }
-
-    @keyframes avatarFloat {
-      0%, 100% {
-        transform: translateY(0);
-      }
-
-      50% {
-        transform: translateY(-3px);
-      }
     }
 
     .avatar-wrap:hover .avatar {
       filter: brightness(.85);
-
-      transform: scale(1.045);
-
-      box-shadow:
-        0 0 12px rgba(255,255,255,.22),
-        0 0 30px rgba(255,255,255,.12);
     }
 
     .avatar-wrap::after {
       content: '';
-
       position: absolute;
       inset: 0;
-
       border-radius: 50%;
-
-      box-shadow:
-        0 0 0 0 rgba(255,255,255,0);
-
+      box-shadow: 0 0 0 0 rgba(255,255,255,0);
       transition: box-shadow .2s ease;
-
       pointer-events: none;
     }
 
     .avatar-wrap:hover::after {
-      box-shadow:
-        0 0 0 3px rgba(255,255,255,.25);
+      box-shadow: 0 0 0 3px rgba(255,255,255,.25);
     }
 
     .avatar {
       width: 96px;
       height: 96px;
-
       border-radius: 50%;
-
       object-fit: cover;
-
       border: 4px solid #2b2d31;
-
       background: #1e1f22;
-
       display: block;
-
-      box-shadow:
-        0 0 0 rgba(255,255,255,0),
-        0 0 18px rgba(255,255,255,.08);
-
-      transition:
-        border-color .6s ease,
-        filter .2s ease,
-        box-shadow .4s ease,
-        transform .4s ease;
+      transition: border-color .6s ease, filter .2s ease;
     }
-
-    /* =========================
-       STATUS
-       ========================= */
 
     .status-dot {
       position: absolute;
-
       bottom: 4px;
       right: 4px;
-
       width: 22px;
       height: 22px;
-
       border-radius: 50%;
-
       border: 4px solid #2b2d31;
-
       background: #747f8d;
-
       transition: border-color .6s ease;
     }
 
     .status-dot.online {
       background: #23a559;
-
-      box-shadow:
-        0 0 0 0 rgba(35,165,89,.55);
-
-      animation: statusPulse 2s infinite;
     }
 
     .status-dot.idle {
       background: #f0b232;
-
-      box-shadow:
-        0 0 0 0 rgba(240,178,50,.45);
-
-      animation: statusPulseIdle 2.5s infinite;
     }
 
     .status-dot.dnd {
       background: #f23f43;
-
-      box-shadow:
-        0 0 0 0 rgba(242,63,67,.45);
-
-      animation: statusPulseDnd 2.5s infinite;
     }
 
     .status-dot.offline {
       background: #747f8d;
     }
 
-    @keyframes statusPulse {
-      0% {
-        box-shadow: 0 0 0 0 rgba(35,165,89,.55);
-      }
-
-      70% {
-        box-shadow: 0 0 0 8px rgba(35,165,89,0);
-      }
-
-      100% {
-        box-shadow: 0 0 0 0 rgba(35,165,89,0);
-      }
-    }
-
-    @keyframes statusPulseIdle {
-      0% {
-        box-shadow: 0 0 0 0 rgba(240,178,50,.45);
-      }
-
-      70% {
-        box-shadow: 0 0 0 8px rgba(240,178,50,0);
-      }
-
-      100% {
-        box-shadow: 0 0 0 0 rgba(240,178,50,0);
-      }
-    }
-
-    @keyframes statusPulseDnd {
-      0% {
-        box-shadow: 0 0 0 0 rgba(242,63,67,.45);
-      }
-
-      70% {
-        box-shadow: 0 0 0 8px rgba(242,63,67,0);
-      }
-
-      100% {
-        box-shadow: 0 0 0 0 rgba(242,63,67,0);
-      }
-    }
-
-    /* =========================
-       TEXT / GLOW
-       ========================= */
-
     .username {
       text-align: center;
-
       font-size: 1.35rem;
       font-weight: 700;
-
       letter-spacing: -.02em;
-
       margin-bottom: 4px;
-
       min-height: 1.6em;
-
-      text-shadow:
-        0 0 6px rgba(255,255,255,.35),
-        0 0 18px rgba(255,255,255,.18);
-
-      animation:
-        usernameGlow 3s ease-in-out infinite;
-    }
-
-    @keyframes usernameGlow {
-      0%, 100% {
-        text-shadow:
-          0 0 6px rgba(255,255,255,.30),
-          0 0 16px rgba(255,255,255,.12);
-      }
-
-      50% {
-        text-shadow:
-          0 0 8px rgba(255,255,255,.55),
-          0 0 22px rgba(255,255,255,.22),
-          0 0 38px rgba(255,255,255,.08);
-      }
     }
 
     .handle {
       text-align: center;
-
       font-size: .9rem;
-
       color: #b5bac1;
-
       margin-bottom: 14px;
-
-      text-shadow:
-        0 0 8px rgba(255,255,255,.15);
     }
-
-    .bio-label {
-      font-size: .7rem;
-
-      font-weight: 600;
-
-      text-transform: uppercase;
-
-      letter-spacing: .06em;
-
-      color: #949ba4;
-
-      margin-bottom: 6px;
-
-      text-align: left;
-
-      text-shadow:
-        0 0 8px rgba(255,255,255,.15);
-    }
-
-    /* =========================
-       BADGES
-       ========================= */
 
     .badges {
       display: flex;
       flex-wrap: wrap;
-
       justify-content: center;
-
       gap: 6px;
-
       min-height: 28px;
-
       margin-bottom: 18px;
     }
 
     .badge {
       width: 24px;
       height: 24px;
-
       border-radius: 4px;
-
-      filter:
-        drop-shadow(0 0 3px rgba(255,255,255,.08));
-
-      transition:
-        transform .15s ease,
-        filter .2s ease;
+      transition: transform .15s ease;
     }
 
     .badge:hover {
       transform: scale(1.15);
-
-      filter:
-        drop-shadow(0 0 7px rgba(255,255,255,.35));
     }
-
-    /* =========================
-       BIO
-       ========================= */
 
     .bio-box {
       background: #1e1f22;
-
       border-radius: 12px;
-
       padding: 14px 16px;
-
       font-size: .95rem;
-
       line-height: 1.5;
-
       color: #dbdee1;
-
       text-align: center;
-
       word-break: break-word;
-
+      transition: background .6s ease;
       min-height: 3.2em;
-
-      box-shadow:
-        inset 0 0 20px rgba(255,255,255,.025),
-        0 0 18px rgba(255,255,255,.025);
-
-      transition:
-        background .6s ease,
-        box-shadow .4s ease,
-        transform .3s ease;
     }
 
-    .bio-box:hover {
-      transform: translateY(-2px);
-
-      box-shadow:
-        inset 0 0 24px rgba(255,255,255,.04),
-        0 0 24px rgba(255,255,255,.08);
+    .bio-label {
+      font-size: .7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: #949ba4;
+      margin-bottom: 6px;
+      text-align: left;
     }
-
-    /* Glowing typing cursor */
 
     .typing::after {
       content: '';
-
       display: inline-block;
-
       width: 2px;
       height: 1em;
-
-      margin-left: 3px;
-
+      margin-left: 2px;
       vertical-align: text-bottom;
-
       background: currentColor;
-
-      box-shadow:
-        0 0 5px currentColor,
-        0 0 10px rgba(255,255,255,.5);
-
-      animation:
-        tw-blink .85s steps(1) infinite;
+      animation: tw-blink .85s steps(1) infinite;
     }
 
     @keyframes tw-blink {
@@ -603,108 +282,57 @@
       }
     }
 
-    /* =========================
-       LINKS
-       ========================= */
-
     .links {
       display: flex;
-
       justify-content: center;
-
       gap: 14px;
-
       margin-top: 22px;
     }
 
     .link-icon {
       width: 42px;
       height: 42px;
-
       border-radius: 12px;
-
       background: #1e1f22;
-
       display: flex;
-
       align-items: center;
       justify-content: center;
-
       color: #dbdee1;
-
+      transition: background .2s ease, color .2s ease, transform .2s ease, box-shadow .2s ease;
       text-decoration: none;
-
-      box-shadow:
-        0 0 0 rgba(255,255,255,0);
-
-      transition:
-        background .2s ease,
-        color .2s ease,
-        transform .2s ease,
-        box-shadow .2s ease;
     }
 
     .link-icon svg {
       width: 20px;
       height: 20px;
-
       fill: currentColor;
     }
 
     .link-icon:hover {
       background: #fff;
-
       color: #000;
-
-      transform:
-        translateY(-3px)
-        scale(1.05);
-
-      box-shadow:
-        0 0 12px rgba(255,255,255,.22),
-        0 0 28px rgba(255,255,255,.10);
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 6px 16px rgba(255,255,255,.25);
     }
-
-    /* =========================
-       FOOTER
-       ========================= */
 
     .footer {
       margin-top: 16px;
-
       text-align: center;
-
       font-size: .75rem;
-
       color: #6d6f78;
-
-      text-shadow:
-        0 0 8px rgba(255,255,255,.08);
     }
-
-    /* =========================
-       FRIENDS MODAL
-       ========================= */
 
     .friends-overlay {
       position: fixed;
       inset: 0;
-
       background: rgba(0,0,0,.65);
-
       backdrop-filter: blur(3px);
-
       display: none;
-
       align-items: center;
       justify-content: center;
-
       z-index: 10;
-
       padding: 20px;
-
       opacity: 0;
-
       transition: opacity .2s ease;
     }
 
@@ -715,220 +343,126 @@
 
     .friends-modal {
       background: #2b2d31;
-
       border-radius: 16px;
-
       width: 100%;
       max-width: 360px;
-
       max-height: 80vh;
-
       overflow-y: auto;
-
       padding: 20px;
-
-      transform:
-        translateY(10px)
-        scale(.98);
-
-      transition:
-        transform .2s ease,
-        background .6s ease,
-        box-shadow .6s ease;
-
-      box-shadow:
-        0 16px 48px rgba(0,0,0,.6);
+      transform: translateY(10px) scale(.98);
+      transition: transform .2s ease, background .6s ease, box-shadow .6s ease;
+      box-shadow: 0 16px 48px rgba(0,0,0,.6);
     }
 
     .friends-overlay.open .friends-modal {
-      transform:
-        translateY(0)
-        scale(1);
+      transform: translateY(0) scale(1);
     }
 
     .friends-header {
       display: flex;
-
       align-items: center;
       justify-content: space-between;
-
       margin-bottom: 14px;
     }
 
     .friends-title {
       font-size: 1rem;
       font-weight: 700;
-
-      text-shadow:
-        0 0 8px rgba(255,255,255,.15);
     }
 
     .friends-close {
       width: 28px;
       height: 28px;
-
       border: none;
-
       border-radius: 50%;
-
       background: #1e1f22;
-
       color: #dbdee1;
-
       display: flex;
-
       align-items: center;
       justify-content: center;
-
       cursor: pointer;
-
       font-size: 1.1rem;
-
       line-height: 1;
-
-      transition:
-        background .15s ease,
-        color .15s ease,
-        transform .2s ease;
+      transition: background .15s ease, color .15s ease;
     }
 
     .friends-close:hover {
       background: #fff;
-
       color: #000;
-
-      transform: rotate(90deg);
     }
 
     .friends-list {
       display: flex;
-
       flex-direction: column;
-
       gap: 8px;
     }
 
     .friend-item {
       display: flex;
-
       align-items: center;
-
       gap: 12px;
-
       background: #1e1f22;
-
       border-radius: 10px;
-
       padding: 10px 12px;
-
-      transition:
-        background .2s ease,
-        box-shadow .2s ease,
-        transform .2s ease;
+      transition: background .2s ease, box-shadow .2s ease;
     }
 
     .friend-item:hover {
       background: #232428;
-
-      transform: translateX(2px);
-
-      box-shadow:
-        0 0 16px rgba(255,255,255,.04);
     }
 
     .friend-avatar-wrap {
       position: relative;
-
       width: 40px;
       height: 40px;
-
       flex-shrink: 0;
     }
 
     .friend-avatar {
       width: 40px;
       height: 40px;
-
       border-radius: 50%;
-
       object-fit: cover;
-
       background: #2b2d31;
-
       display: block;
-
-      transition:
-        box-shadow .3s ease,
-        transform .3s ease;
-    }
-
-    .friend-item:hover .friend-avatar {
-      transform: scale(1.06);
+      transition: box-shadow .3s ease;
     }
 
     .friend-info {
       display: flex;
-
       flex-direction: column;
-
       min-width: 0;
     }
 
     .friend-name {
       font-size: .92rem;
-
       font-weight: 600;
-
       color: #fff;
-
       white-space: nowrap;
-
       overflow: hidden;
-
       text-overflow: ellipsis;
-
-      text-shadow:
-        0 0 7px rgba(255,255,255,.12);
     }
 
     .friend-username {
       font-size: .78rem;
-
       color: #949ba4;
-
       white-space: nowrap;
-
       overflow: hidden;
-
       text-overflow: ellipsis;
     }
 
     .friend-badges {
       display: flex;
-
       gap: 3px;
-
       margin-left: auto;
-
       flex-shrink: 0;
     }
 
     .friend-badge {
       width: 17px;
       height: 17px;
-
       border-radius: 3px;
-
-      transition: transform .2s ease;
     }
-
-    .friend-badge:hover {
-      transform: scale(1.15);
-    }
-
-    /* =========================
-       MOBILE
-       ========================= */
 
     @media (max-width: 480px) {
       body {
@@ -939,294 +473,99 @@
         max-width: 380px;
       }
     }
-
-    /* =========================
-       REDUCED MOTION
-       ========================= */
-
-    @media (prefers-reduced-motion: reduce) {
-      *,
-      *::before,
-      *::after {
-        animation-duration: .01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: .01ms !important;
-      }
-    }
   </style>
 </head>
 
 <body>
-
   <div id="snow"></div>
 
   <div class="card" id="card">
-
-    <!-- Views -->
     <div class="views" id="views">
       <svg viewBox="0 0 24 24">
         <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
       </svg>
-
       <span id="view-count">–</span>
     </div>
 
-    <!-- Audio -->
-    <button
-      class="audio-toggle"
-      id="audio-toggle"
-      title="Toggle sound"
-      aria-label="Toggle sound"
-    >
+    <button class="audio-toggle" id="audio-toggle" title="Toggle sound" aria-label="Toggle sound">
       <svg id="audio-icon" viewBox="0 0 24 24">
         <path d="M3 10v4h4l5 5V5L7 10H3zm13.5 2c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
       </svg>
     </button>
 
-    <audio
-      id="bg-audio"
-      src="https://raw.githubusercontent.com/cuckedd/cuck/main/ssstik.io_1790198739810.mp3"
-      loop
-      preload="auto"
-    ></audio>
+    <audio id="bg-audio" src="https://raw.githubusercontent.com/cuckedd/cuck/main/ssstik.io_1790198739810.mp3" loop preload="auto"></audio>
 
-    <!-- Avatar -->
-    <div
-      class="avatar-wrap"
-      id="avatar-wrap"
-      title="See friends"
-    >
-      <img
-        class="avatar"
-        id="avatar"
-        src=""
-        alt="Avatar"
-        crossorigin="anonymous"
-      >
-
-      <div
-        class="status-dot offline"
-        id="status"
-      ></div>
+    <div class="avatar-wrap" id="avatar-wrap" title="See friends">
+      <img class="avatar" id="avatar" src="" alt="Avatar" crossorigin="anonymous">
+      <div class="status-dot offline" id="status"></div>
     </div>
 
-    <!-- Username -->
-    <div
-      class="username"
-      id="username"
-    >
-      Loading…
-    </div>
+    <div class="username" id="username">Loading…</div>
+    <div class="handle" id="handle">@…</div>
+    <div class="badges" id="badges"></div>
 
-    <!-- Handle -->
-    <div
-      class="handle"
-      id="handle"
-    >
-      @…
-    </div>
+    <div class="bio-label">About Me</div>
+    <div class="bio-box" id="bio"></div>
 
-    <!-- Badges -->
-    <div
-      class="badges"
-      id="badges"
-    ></div>
-
-    <!-- Bio -->
-    <div class="bio-label">
-      About Me
-    </div>
-
-    <div
-      class="bio-box"
-      id="bio"
-    ></div>
-
-    <!-- Links -->
     <div class="links">
-
-      <a
-        class="link-icon"
-        href="https://t.me/xbtie"
-        target="_blank"
-        rel="noopener"
-        title="Telegram"
-      >
+      <a class="link-icon" href="https://t.me/xbtie" target="_blank" rel="noopener" title="Telegram">
         <svg viewBox="0 0 24 24">
           <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
         </svg>
       </a>
 
-      <a
-        class="link-icon"
-        href="mailto:reject@cuck.mom"
-        title="Email"
-      >
+      <a class="link-icon" href="mailto:reject@cuck.mom" title="Email">
         <svg viewBox="0 0 24 24">
           <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
         </svg>
       </a>
-
     </div>
 
-    <div
-      class="footer"
-      id="footer"
-    ></div>
-
+    <div class="footer" id="footer"></div>
   </div>
 
-  <!-- Friends Modal -->
-
-  <div
-    class="friends-overlay"
-    id="friends-overlay"
-  >
-
-    <div
-      class="friends-modal"
-      id="friends-modal"
-    >
-
+  <div class="friends-overlay" id="friends-overlay">
+    <div class="friends-modal" id="friends-modal">
       <div class="friends-header">
-
-        <div class="friends-title">
-          Friends
-        </div>
-
-        <button
-          class="friends-close"
-          id="friends-close"
-          aria-label="Close"
-        >
-          ✕
-        </button>
-
+        <div class="friends-title">Friends</div>
+        <button class="friends-close" id="friends-close" aria-label="Close">✕</button>
       </div>
 
-      <div
-        class="friends-list"
-        id="friends-list"
-      >
-        <div
-          style="
-            color:#949ba4;
-            font-size:.85rem;
-            text-align:center;
-            padding:12px 0;
-          "
-        >
-          Loading…
-        </div>
+      <div class="friends-list" id="friends-list">
+        <div style="color:#949ba4;font-size:.85rem;text-align:center;padding:12px 0;">Loading…</div>
       </div>
-
     </div>
-
   </div>
 
   <script>
-
-    /* =========================
-       CONFIG
-       ========================= */
-
     const DISCORD_ID = "1538289285327888518";
 
-    const BIO_TEXT =
-      "Unfortunately my hamster Rachid Johnson died meskien.";
+    const BIO_TEXT = "Unfortunately my hamster Rachid Johnson died meskien.";
 
     const FRIEND_IDS = [
       "707887497153216562"
     ];
 
-    const FRIEND_PROFILE_API =
-      "https://discord-lookup.lookupbotdc.workers.dev/search/";
+    const FRIEND_PROFILE_API = "https://discord-lookup.lookupbotdc.workers.dev/search/";
 
-    const COUNTER_KEY =
-      "reject-bio-" + DISCORD_ID;
+    const COUNTER_KEY = "reject-bio-" + DISCORD_ID;
 
     const BADGE_MAP = [
-
-      {
-        flag: 1 << 0,
-        file: "staff.svg",
-        name: "Discord Staff"
-      },
-
-      {
-        flag: 1 << 1,
-        file: "partnered_server_owner.svg",
-        name: "Partnered Server Owner"
-      },
-
-      {
-        flag: 1 << 2,
-        file: "hypesquad_events.svg",
-        name: "HypeSquad Events"
-      },
-
-      {
-        flag: 1 << 3,
-        file: "bug_hunter_level_1.svg",
-        name: "Bug Hunter Level 1"
-      },
-
-      {
-        flag: 1 << 6,
-        file: "hypesquad_bravery.svg",
-        name: "HypeSquad Bravery"
-      },
-
-      {
-        flag: 1 << 7,
-        file: "hypesquad_brilliance.svg",
-        name: "HypeSquad Brilliance"
-      },
-
-      {
-        flag: 1 << 8,
-        file: "hypesquad_balance.svg",
-        name: "HypeSquad Balance"
-      },
-
-      {
-        flag: 1 << 9,
-        file: "early_supporter.svg",
-        name: "Early Supporter"
-      },
-
-      {
-        flag: 1 << 14,
-        file: "bug_hunter_level_2.svg",
-        name: "Bug Hunter Level 2"
-      },
-
-      {
-        flag: 1 << 17,
-        file: "early_verified_developer.svg",
-        name: "Early Verified Bot Developer"
-      },
-
-      {
-        flag: 1 << 18,
-        file: "certified_moderator.svg",
-        name: "Moderator Programs Alumni"
-      },
-
-      {
-        flag: 1 << 22,
-        file: "active_developer.svg",
-        name: "Active Developer"
-      }
-
+      { flag: 1 << 0, file: "staff.svg", name: "Discord Staff" },
+      { flag: 1 << 1, file: "partnered_server_owner.svg", name: "Partnered Server Owner" },
+      { flag: 1 << 2, file: "hypesquad_events.svg", name: "HypeSquad Events" },
+      { flag: 1 << 3, file: "bug_hunter_level_1.svg", name: "Bug Hunter Level 1" },
+      { flag: 1 << 6, file: "hypesquad_bravery.svg", name: "HypeSquad Bravery" },
+      { flag: 1 << 7, file: "hypesquad_brilliance.svg", name: "HypeSquad Brilliance" },
+      { flag: 1 << 8, file: "hypesquad_balance.svg", name: "HypeSquad Balance" },
+      { flag: 1 << 9, file: "early_supporter.svg", name: "Early Supporter" },
+      { flag: 1 << 14, file: "bug_hunter_level_2.svg", name: "Bug Hunter Level 2" },
+      { flag: 1 << 17, file: "early_verified_developer.svg", name: "Early Verified Bot Developer" },
+      { flag: 1 << 18, file: "certified_moderator.svg", name: "Moderator Programs Alumni" },
+      { flag: 1 << 22, file: "active_developer.svg", name: "Active Developer" }
     ];
 
-    const BADGE_CDN =
-      "https://cdn.jsdelivr.net/gh/merlinfuchs/discord-badges@latest/SVG/";
-
-    /* =========================
-       STATE
-       ========================= */
+    const BADGE_CDN = "https://cdn.jsdelivr.net/gh/merlinfuchs/discord-badges@latest/SVG/";
 
     let currentTheme = {
       card: "#2b2d31",
@@ -1237,35 +576,20 @@
 
     let hasIntroed = false;
     let friendsLoaded = false;
+
     let themeLocked = false;
 
-    /* =========================
-       SNOW
-       ========================= */
-
     function createSnow() {
-
-      const snow =
-        document.getElementById("snow");
+      const snow = document.getElementById("snow");
 
       for (let i = 0; i < 80; i++) {
-
-        const dot =
-          document.createElement("div");
-
+        const dot = document.createElement("div");
         dot.className = "b";
 
-        const size =
-          Math.floor(Math.random() * 10) + 2;
-
-        const left =
-          (i / 80) * 100;
-
-        const duration =
-          Math.floor(Math.random() * 20) + 11;
-
-        const delay =
-          Math.floor(Math.random() * 12);
+        const size = Math.floor(Math.random() * 10) + 2;
+        const left = (i / 80) * 100;
+        const duration = Math.floor(Math.random() * 20) + 11;
+        const delay = Math.floor(Math.random() * 12);
 
         dot.style.left = `${left}%`;
         dot.style.width = `${size}px`;
@@ -1277,146 +601,81 @@
       }
     }
 
-    /* =========================
-       BADGES
-       ========================= */
-
     function getBadges(publicFlags) {
-
-      return BADGE_MAP.filter(
-        b => (publicFlags & b.flag) === b.flag
-      );
-
+      return BADGE_MAP.filter(b => (publicFlags & b.flag) === b.flag);
     }
 
-    /* =========================
-       AVATAR
-       ========================= */
-
     function avatarUrl(user) {
-
       if (user.avatar_url) {
         return user.avatar_url;
       }
 
       if (!user.avatar) {
+        const discriminator = user.discriminator || "0";
 
-        const discriminator =
-          user.discriminator || "0";
-
-        const idx =
-          discriminator === "0"
-            ? Number(
-                (BigInt(user.id) >> 22n) % 6n
-              )
-            : parseInt(discriminator) % 5;
+        const idx = discriminator === "0"
+          ? Number((BigInt(user.id) >> 22n) % 6n)
+          : parseInt(discriminator) % 5;
 
         return `https://cdn.discordapp.com/embed/avatars/${idx}.png`;
       }
 
-      const ext =
-        user.avatar.startsWith("a_")
-          ? "gif"
-          : "png";
+      const ext = user.avatar.startsWith("a_") ? "gif" : "png";
 
       return `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.${ext}?size=128`;
     }
 
-    /* =========================
-       THEME
-       ========================= */
-
     function themeFromProfile(user) {
-
       if (user.banner_color) {
-
-        const hex =
-          user.banner_color.replace("#", "");
+        const hex = user.banner_color.replace("#", "");
 
         if (hex.length === 6) {
-
           return {
             r: parseInt(hex.slice(0, 2), 16),
             g: parseInt(hex.slice(2, 4), 16),
             b: parseInt(hex.slice(4, 6), 16)
           };
-
         }
       }
 
       if (typeof user.accent_color === "number") {
-
         return {
           r: (user.accent_color >> 16) & 255,
           g: (user.accent_color >> 8) & 255,
           b: user.accent_color & 255
         };
-
       }
 
       return null;
     }
 
     function getDominantColor(img) {
-
       try {
-
-        const canvas =
-          document.createElement("canvas");
-
+        const canvas = document.createElement("canvas");
         const size = 40;
 
         canvas.width = size;
         canvas.height = size;
 
-        const ctx =
-          canvas.getContext("2d");
+        const ctx = canvas.getContext("2d");
 
-        ctx.drawImage(
-          img,
-          0,
-          0,
-          size,
-          size
-        );
+        ctx.drawImage(img, 0, 0, size, size);
 
-        const data =
-          ctx.getImageData(
-            0,
-            0,
-            size,
-            size
-          ).data;
+        const data = ctx.getImageData(0, 0, size, size).data;
 
         let r = 0;
         let g = 0;
         let b = 0;
         let count = 0;
 
-        for (
-          let i = 0;
-          i < data.length;
-          i += 4
-        ) {
+        for (let i = 0; i < data.length; i += 4) {
+          const brightness = (data[i] + data[i + 1] + data[i + 2]) / 3;
 
-          const brightness =
-            (
-              data[i] +
-              data[i + 1] +
-              data[i + 2]
-            ) / 3;
-
-          if (
-            brightness < 25 ||
-            brightness > 230
-          ) {
-            continue;
-          }
+          if (brightness < 25 || brightness > 230) continue;
 
           r += data[i];
           g += data[i + 1];
           b += data[i + 2];
-
           count++;
         }
 
@@ -1433,16 +692,16 @@
           g: Math.round(g * .35),
           b: Math.round(b * .35)
         };
-
       } catch {
-
         return null;
-
       }
     }
 
-    function applyTheme(color) {
+    function rgb(color) {
+      return `rgb(${color.r}, ${color.g}, ${color.b})`;
+    }
 
+    function applyTheme(color) {
       const { r, g, b } = color;
 
       const cardBg = `rgb(
@@ -1451,8 +710,7 @@
         ${Math.min(255, b + 28)}
       )`;
 
-      const darker =
-        `rgb(${r}, ${g}, ${b})`;
+      const darker = `rgb(${r}, ${g}, ${b})`;
 
       const bodyBg = `rgb(
         ${Math.max(0, r - 12)},
@@ -1461,859 +719,409 @@
       )`;
 
       currentTheme = {
-
         card: cardBg,
-
-        darker: darker,
-
+        darker,
         body: bodyBg,
-
-        accent:
-          `rgb(
-            ${Math.min(255, r + 100)},
-            ${Math.min(255, g + 100)},
-            ${Math.min(255, b + 100)}
-          )`
-
+        accent: `rgb(${Math.min(255, r + 100)}, ${Math.min(255, g + 100)}, ${Math.min(255, b + 100)})`
       };
 
-      document.body.style.background =
-        bodyBg;
+      document.body.style.background = bodyBg;
 
-      document.getElementById("card")
-        .style.background =
-        cardBg;
+      document.getElementById("card").style.background = cardBg;
 
-      document
-        .querySelectorAll(
-          ".avatar, .status-dot"
-        )
-        .forEach(el => {
+      document.querySelectorAll(".avatar, .status-dot").forEach(el => {
+        el.style.borderColor = cardBg;
+      });
 
-          el.style.borderColor =
-            cardBg;
+      document.querySelectorAll(".bio-box, .link-icon").forEach(el => {
+        el.style.background = darker;
+      });
 
-        });
+      document.getElementById("friends-modal").style.background = cardBg;
 
-      document
-        .querySelectorAll(
-          ".bio-box, .link-icon"
-        )
-        .forEach(el => {
+      document.querySelectorAll(".friend-item").forEach(el => {
+        el.style.background = darker;
+      });
 
-          el.style.background =
-            darker;
+      document.querySelectorAll(".friends-close").forEach(el => {
+        el.style.background = darker;
+      });
 
-        });
-
-      document.getElementById(
-        "friends-modal"
-      ).style.background =
-        cardBg;
-
-      document
-        .querySelectorAll(
-          ".friend-item"
-        )
-        .forEach(el => {
-
-          el.style.background =
-            darker;
-
-        });
-
-      document
-        .querySelectorAll(
-          ".friends-close"
-        )
-        .forEach(el => {
-
-          el.style.background =
-            darker;
-
-        });
-
-      document
-        .querySelectorAll(
-          ".friend-avatar"
-        )
-        .forEach(el => {
-
-          el.style.background =
-            cardBg;
-
-        });
+      document.querySelectorAll(".friend-avatar").forEach(el => {
+        el.style.background = cardBg;
+      });
 
       themeLocked = true;
     }
 
-    /* =========================
-       TYPING
-       ========================= */
-
-    function typeText(
-      el,
-      text,
-      speed
-    ) {
-
+    function typeText(el, text, speed) {
       return new Promise(resolve => {
-
         el.textContent = "";
-
         el.classList.add("typing");
 
         let i = 0;
 
         function tick() {
-
           if (i <= text.length) {
-
-            el.textContent =
-              text.slice(0, i);
-
+            el.textContent = text.slice(0, i);
             i++;
-
-            setTimeout(
-              tick,
-              speed
-            );
-
+            setTimeout(tick, speed);
           } else {
-
-            el.classList.remove(
-              "typing"
-            );
-
+            el.classList.remove("typing");
             resolve();
-
           }
-
         }
 
         tick();
-
       });
-
     }
 
-    /* =========================
-       VIEWS
-       ========================= */
-
     async function loadViews() {
-
       try {
+        const res = await fetch(
+          "https://countapi.mileshilliard.com/api/v1/hit/" + COUNTER_KEY
+        );
 
-        const res =
-          await fetch(
-            "https://countapi.mileshilliard.com/api/v1/hit/" +
-            COUNTER_KEY
-          );
+        const data = await res.json();
 
-        const data =
-          await res.json();
+        const value = data.value ?? data.count ?? 0;
 
-        const value =
-          data.value ??
-          data.count ??
-          0;
-
-        document.getElementById(
-          "view-count"
-        ).textContent =
+        document.getElementById("view-count").textContent =
           Number(value).toLocaleString();
-
       } catch {
-
-        document.getElementById(
-          "view-count"
-        ).textContent = "–";
-
+        document.getElementById("view-count").textContent = "–";
       }
     }
 
-    /* =========================
-       AUDIO
-       ========================= */
-
     function initAudio() {
-
-      const audio =
-        document.getElementById(
-          "bg-audio"
-        );
-
-      const toggle =
-        document.getElementById(
-          "audio-toggle"
-        );
+      const audio = document.getElementById("bg-audio");
+      const toggle = document.getElementById("audio-toggle");
 
       function updateIcon() {
-
-        toggle.classList.toggle(
-          "muted",
-          audio.paused
-        );
-
+        toggle.classList.toggle("muted", audio.paused);
       }
 
       audio.play()
         .then(updateIcon)
         .catch(() => {
-
           updateIcon();
 
-          const startOnInteract =
-            () => {
-
-              audio.play()
-                .then(updateIcon)
-                .catch(() => {});
-
-              window.removeEventListener(
-                "click",
-                startOnInteract
-              );
-
-              window.removeEventListener(
-                "keydown",
-                startOnInteract
-              );
-
-              window.removeEventListener(
-                "touchstart",
-                startOnInteract
-              );
-
-            };
-
-          window.addEventListener(
-            "click",
-            startOnInteract
-          );
-
-          window.addEventListener(
-            "keydown",
-            startOnInteract
-          );
-
-          window.addEventListener(
-            "touchstart",
-            startOnInteract
-          );
-
-        });
-
-      toggle.addEventListener(
-        "click",
-        e => {
-
-          e.stopPropagation();
-
-          if (audio.paused) {
-
+          const startOnInteract = () => {
             audio.play()
               .then(updateIcon)
               .catch(() => {});
 
-          } else {
+            window.removeEventListener("click", startOnInteract);
+            window.removeEventListener("keydown", startOnInteract);
+            window.removeEventListener("touchstart", startOnInteract);
+          };
 
-            audio.pause();
+          window.addEventListener("click", startOnInteract);
+          window.addEventListener("keydown", startOnInteract);
+          window.addEventListener("touchstart", startOnInteract);
+        });
 
-            updateIcon();
+      toggle.addEventListener("click", e => {
+        e.stopPropagation();
 
-          }
-
+        if (audio.paused) {
+          audio.play()
+            .then(updateIcon)
+            .catch(() => {});
+        } else {
+          audio.pause();
+          updateIcon();
         }
-      );
-
+      });
     }
 
-    /* =========================
-       RENDER PROFILE
-       ========================= */
-
     function render(data) {
-
-      const user =
-        data.discord_user;
-
-      const status =
-        data.discord_status ||
-        "offline";
-
-      const url =
-        avatarUrl(user);
-
-      const avatar =
-        document.getElementById(
-          "avatar"
-        );
+      const user = data.discord_user;
+      const status = data.discord_status || "offline";
+      const url = avatarUrl(user);
+      const avatar = document.getElementById("avatar");
 
       if (!themeLocked) {
-
-        const profileTheme =
-          themeFromProfile(user);
+        const profileTheme = themeFromProfile(user);
 
         if (profileTheme) {
-
-          applyTheme(
-            profileTheme
-          );
-
+          applyTheme(profileTheme);
         } else {
-
           avatar.onload = () => {
+            if (themeLocked) return;
 
-            if (themeLocked) {
-              return;
-            }
+            const dominant = getDominantColor(avatar);
 
-            const dominant =
-              getDominantColor(
-                avatar
-              );
-
-            applyTheme(
-              dominant ||
-              {
-                r: 20,
-                g: 20,
-                b: 24
-              }
-            );
-
+            applyTheme(dominant || { r: 20, g: 20, b: 24 });
           };
 
           avatar.onerror = () => {
-
-            if (themeLocked) {
-              return;
-            }
-
-            applyTheme({
-              r: 20,
-              g: 20,
-              b: 24
-            });
-
+            if (themeLocked) return;
+            applyTheme({ r: 20, g: 20, b: 24 });
           };
-
         }
       }
 
       avatar.src = url;
 
-      const displayName =
-        user.global_name ||
-        user.username;
+      const displayName = user.global_name || user.username;
 
-      document.getElementById(
-        "handle"
-      ).textContent =
+      document.getElementById("handle").textContent =
         `@${user.username}`;
 
-      const statusEl =
-        document.getElementById(
-          "status"
-        );
+      const statusEl = document.getElementById("status");
 
-      statusEl.className =
-        "status-dot " +
-        status;
+      statusEl.className = "status-dot " + status;
 
-      const badgesEl =
-        document.getElementById(
-          "badges"
-        );
+      const badgesEl = document.getElementById("badges");
 
       badgesEl.innerHTML = "";
 
-      getBadges(
-        user.public_flags || 0
-      ).forEach(b => {
+      getBadges(user.public_flags || 0).forEach(b => {
+        const img = document.createElement("img");
 
-        const img =
-          document.createElement(
-            "img"
-          );
-
-        img.src =
-          BADGE_CDN + b.file;
-
-        img.alt =
-          b.name;
-
-        img.title =
-          b.name;
-
-        img.className =
-          "badge";
+        img.src = BADGE_CDN + b.file;
+        img.alt = b.name;
+        img.title = b.name;
+        img.className = "badge";
 
         badgesEl.appendChild(img);
-
       });
 
-      document.getElementById(
-        "username"
-      ).textContent =
-        displayName;
+      document.getElementById("username").textContent = displayName;
 
       if (!hasIntroed) {
-
         hasIntroed = true;
 
-        const bioEl =
-          document.getElementById(
-            "bio"
-          );
+        const bioEl = document.getElementById("bio");
 
-        typeText(
-          bioEl,
-          BIO_TEXT,
-          20
-        );
+        typeText(bioEl, BIO_TEXT, 20);
 
-        document.title =
-          `${displayName} • Bio`;
-
+        document.title = `${displayName} • Bio`;
       } else {
-
-        document.getElementById(
-          "bio"
-        ).textContent =
-          BIO_TEXT;
-
+        document.getElementById("bio").textContent = BIO_TEXT;
       }
 
-      document.getElementById(
-        "footer"
-      ).textContent = "";
-
+      document.getElementById("footer").textContent = "";
     }
 
     function showError() {
-
-      document.getElementById(
-        "username"
-      ).textContent =
-        "Unavailable";
-
-      document.getElementById(
-        "handle"
-      ).textContent = "";
-
-      document.getElementById(
-        "badges"
-      ).innerHTML = "";
-
-      document.getElementById(
-        "footer"
-      ).textContent = "";
-
+      document.getElementById("username").textContent = "Unavailable";
+      document.getElementById("handle").textContent = "";
+      document.getElementById("badges").innerHTML = "";
+      document.getElementById("footer").textContent = "";
     }
 
-    /* =========================
-       DISCORD PRESENCE
-       ========================= */
-
     async function fetchPresence() {
-
       try {
+        const res = await fetch(
+          `https://api.lanyard.rest/v1/users/${DISCORD_ID}`
+        );
 
-        const res =
-          await fetch(
-            `https://api.lanyard.rest/v1/users/${DISCORD_ID}`
-          );
-
-        const json =
-          await res.json();
+        const json = await res.json();
 
         if (!json.success) {
-
           showError();
-
           return;
-
         }
 
         render(json.data);
-
       } catch {
-
         showError();
-
       }
-
     }
 
-    /* =========================
-       FRIENDS
-       ========================= */
-
     async function fetchFriendProfile(id) {
-
       try {
-
-        const res =
-          await fetch(
-            FRIEND_PROFILE_API +
-            encodeURIComponent(id)
-          );
+        const res = await fetch(
+          FRIEND_PROFILE_API + encodeURIComponent(id)
+        );
 
         if (!res.ok) {
-
           return {
             id,
             data: null
           };
-
         }
 
-        const json =
-          await res.json();
+        const json = await res.json();
 
         return {
           id,
-          data:
-            json.user ||
-            json
+          data: json.user || json
         };
-
       } catch {
-
         return {
           id,
           data: null
         };
-
       }
     }
 
     function renderFriendBadges(user) {
-
-      const flags =
-        user.public_flags ||
-        user.flags ||
-        0;
+      const flags = user.public_flags || user.flags || 0;
 
       return getBadges(flags)
         .slice(0, 4)
-        .map(
-          b => `
-            <img
-              class="friend-badge"
-              src="${BADGE_CDN + b.file}"
-              alt="${b.name}"
-              title="${b.name}"
-            >
-          `
-        )
+        .map(b => `
+          <img
+            class="friend-badge"
+            src="${BADGE_CDN + b.file}"
+            alt="${b.name}"
+            title="${b.name}"
+          >
+        `)
         .join("");
-
     }
 
     function renderFriendsList(entries) {
-
-      const listEl =
-        document.getElementById(
-          "friends-list"
-        );
+      const listEl = document.getElementById("friends-list");
 
       listEl.innerHTML = "";
 
-      entries.forEach(
-        ({ id, data }) => {
+      entries.forEach(({ id, data }) => {
+        const item = document.createElement("div");
 
-          const item =
-            document.createElement(
-              "div"
-            );
+        item.className = "friend-item";
+        item.style.background = currentTheme.darker;
 
-          item.className =
-            "friend-item";
-
-          item.style.background =
-            currentTheme.darker;
-
-          if (!data) {
-
-            item.innerHTML = `
-              <div class="friend-avatar-wrap">
-
-                <div
-                  class="friend-avatar"
-                  style="
-                    display:flex;
-                    align-items:center;
-                    justify-content:center;
-                    color:#6d6f78;
-                    font-size:.7rem;
-                  "
-                >
-                  ?
-                </div>
-
-              </div>
-
-              <div class="friend-info">
-
-                <div class="friend-name">
-                  Unavailable
-                </div>
-
-                <div class="friend-username">
-                  ${id}
-                </div>
-
-              </div>
-            `;
-
-            listEl.appendChild(item);
-
-            return;
-          }
-
-          const displayName =
-            data.global_name ||
-            data.username ||
-            "Unknown";
-
-          const username =
-            data.username ||
-            displayName;
-
-          const url =
-            avatarUrl(data);
-
-          const profileTheme =
-            themeFromProfile(data);
-
+        if (!data) {
           item.innerHTML = `
-
             <div class="friend-avatar-wrap">
-
-              <img
+              <div
                 class="friend-avatar"
-                src="${url}"
-                alt="${escapeHtml(displayName)}"
-              >
-
+                style="display:flex;align-items:center;justify-content:center;color:#6d6f78;font-size:.7rem;"
+              >?</div>
             </div>
-
             <div class="friend-info">
-
-              <div class="friend-name">
-                ${escapeHtml(displayName)}
-              </div>
-
-              <div class="friend-username">
-                @${escapeHtml(username)}
-              </div>
-
+              <div class="friend-name">Unavailable</div>
+              <div class="friend-username">${id}</div>
             </div>
-
-            <div class="friend-badges">
-              ${renderFriendBadges(data)}
-            </div>
-
           `;
 
-          const friendAvatar =
-            item.querySelector(
-              ".friend-avatar"
-            );
-
-          friendAvatar.style.background =
-            currentTheme.card;
-
-          if (profileTheme) {
-
-            const {
-              r,
-              g,
-              b
-            } = profileTheme;
-
-            friendAvatar.style.boxShadow =
-              `0 0 0 2px rgba(${r}, ${g}, ${b}, .35)`;
-
-          }
-
           listEl.appendChild(item);
-
+          return;
         }
-      );
 
+        const displayName =
+          data.global_name ||
+          data.username ||
+          "Unknown";
+
+        const username =
+          data.username ||
+          displayName;
+
+        const url = avatarUrl(data);
+
+        const profileTheme = themeFromProfile(data);
+
+        item.innerHTML = `
+          <div class="friend-avatar-wrap">
+            <img
+              class="friend-avatar"
+              src="${url}"
+              alt="${displayName}"
+            >
+          </div>
+
+          <div class="friend-info">
+            <div class="friend-name">${escapeHtml(displayName)}</div>
+            <div class="friend-username">@${escapeHtml(username)}</div>
+          </div>
+
+          <div class="friend-badges">
+            ${renderFriendBadges(data)}
+          </div>
+        `;
+
+        const friendAvatar = item.querySelector(".friend-avatar");
+
+        friendAvatar.style.background = currentTheme.card;
+
+        if (profileTheme) {
+          const { r, g, b } = profileTheme;
+
+          friendAvatar.style.boxShadow =
+            `0 0 0 2px rgba(${r}, ${g}, ${b}, .35)`;
+        }
+
+        listEl.appendChild(item);
+      });
     }
 
     function escapeHtml(value) {
-
       return String(value)
-
-        .replaceAll(
-          "&",
-          "&amp;"
-        )
-
-        .replaceAll(
-          "<",
-          "&lt;"
-        )
-
-        .replaceAll(
-          ">",
-          "&gt;"
-        )
-
-        .replaceAll(
-          '"',
-          "&quot;"
-        )
-
-        .replaceAll(
-          "'",
-          "&#039;"
-        );
-
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
     }
 
     async function loadFriends() {
-
-      if (friendsLoaded) {
-        return;
-      }
+      if (friendsLoaded) return;
 
       friendsLoaded = true;
 
-      const results =
-        await Promise.all(
-          FRIEND_IDS.map(
-            fetchFriendProfile
-          )
-        );
-
-      renderFriendsList(
-        results
+      const results = await Promise.all(
+        FRIEND_IDS.map(fetchFriendProfile)
       );
 
+      renderFriendsList(results);
     }
 
     function openFriendsModal() {
+      const overlay = document.getElementById("friends-overlay");
 
-      const overlay =
-        document.getElementById(
-          "friends-overlay"
-        );
+      overlay.classList.add("open");
 
-      overlay.classList.add(
-        "open"
-      );
-
-      document.getElementById(
-        "friends-modal"
-      ).style.background =
+      document.getElementById("friends-modal").style.background =
         currentTheme.card;
 
       loadFriends();
-
     }
 
     function closeFriendsModal() {
-
       document
-        .getElementById(
-          "friends-overlay"
-        )
-        .classList.remove(
-          "open"
-        );
-
+        .getElementById("friends-overlay")
+        .classList.remove("open");
     }
 
-    /* =========================
-       FRIEND EVENTS
-       ========================= */
+    document
+      .getElementById("avatar-wrap")
+      .addEventListener("click", e => {
+        e.stopPropagation();
+        openFriendsModal();
+      });
 
     document
-      .getElementById(
-        "avatar-wrap"
-      )
-      .addEventListener(
-        "click",
-        e => {
-
-          e.stopPropagation();
-
-          openFriendsModal();
-
-        }
-      );
+      .getElementById("friends-close")
+      .addEventListener("click", closeFriendsModal);
 
     document
-      .getElementById(
-        "friends-close"
-      )
-      .addEventListener(
-        "click",
-        closeFriendsModal
-      );
-
-    document
-      .getElementById(
-        "friends-overlay"
-      )
-      .addEventListener(
-        "click",
-        e => {
-
-          if (
-            e.target.id ===
-            "friends-overlay"
-          ) {
-
-            closeFriendsModal();
-
-          }
-
-        }
-      );
-
-    document.addEventListener(
-      "keydown",
-      e => {
-
-        if (
-          e.key === "Escape"
-        ) {
-
+      .getElementById("friends-overlay")
+      .addEventListener("click", e => {
+        if (e.target.id === "friends-overlay") {
           closeFriendsModal();
-
         }
+      });
 
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape") {
+        closeFriendsModal();
       }
-    );
-
-    /* =========================
-       START
-       ========================= */
+    });
 
     createSnow();
-
     loadViews();
-
     initAudio();
-
     fetchPresence();
 
-    setInterval(
-      fetchPresence,
-      30000
-    );
-
+    setInterval(fetchPresence, 30000);
   </script>
-
 </body>
 </html>
-```
+
+
+Make the text on my profile look a bit glowy and add some cool animations that match this HTML.
