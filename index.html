@@ -4,33 +4,111 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>cuck.mom - About me</title>
+
   <meta property="og:type" content="personal profile">
   <meta property="og:title" content="@x.b.t">
   <meta property="og:description" content="unfortunately my hamster Rachid Johnson died meskien.">
   <meta property="og:url" content="https://cuck.mom/">
-  <meta property="og:image" content="https://i.pinimg.com/736x/c7/bb/4e/c7bb4ef758b0c1b1a378a68083c2daeb.jpg ">
+  <meta property="og:image" content="https://i.pinimg.com/736x/c7/bb/4e/c7bb4ef758b0c1b1a378a68083c2daeb.jpg">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
+    :root {
+      --accent: 255, 255, 255;
+      --accent-soft: rgba(255,255,255,.18);
+      --accent-glow: rgba(255,255,255,.45);
+      --card: #2b2d31;
+      --dark: #1e1f22;
+      --bg: #080808;
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
+    html {
+      min-height: 100%;
+      background: #000;
+    }
+
     body {
       min-height: 100vh;
-      background: #000;
+      background:
+        radial-gradient(circle at 50% 50%, rgba(var(--accent), .07), transparent 35%),
+        radial-gradient(circle at 10% 20%, rgba(var(--accent), .04), transparent 30%),
+        var(--bg);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      font-family: "Inter", system-ui, sans-serif;
       color: #fff;
       padding: 24px;
       overflow: hidden;
-      transition: background 0.8s ease;
+      transition: background 1s ease;
+    }
+
+    /* =========================
+       BACKGROUND
+    ========================= */
+
+    body::before {
+      content: "";
+      position: fixed;
+      width: 700px;
+      height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle,
+        rgba(var(--accent), .11),
+        transparent 65%
+      );
+      filter: blur(70px);
+      pointer-events: none;
+      animation: ambientMove 12s ease-in-out infinite alternate;
+      z-index: 0;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        linear-gradient(
+          115deg,
+          transparent 0%,
+          rgba(255,255,255,.025) 45%,
+          transparent 50%
+        );
+      background-size: 300% 300%;
+      pointer-events: none;
+      animation: backgroundSweep 12s linear infinite;
+      z-index: 0;
+    }
+
+    @keyframes ambientMove {
+      0% {
+        transform: translate(-25vw, -15vh) scale(.8);
+      }
+      50% {
+        transform: translate(20vw, 10vh) scale(1.2);
+      }
+      100% {
+        transform: translate(-5vw, 25vh) scale(.9);
+      }
+    }
+
+    @keyframes backgroundSweep {
+      0% {
+        background-position: 200% 0;
+      }
+      100% {
+        background-position: -200% 100%;
+      }
     }
 
     #snow {
@@ -45,90 +123,263 @@
       position: absolute;
       top: -50px;
       border-radius: 50%;
-      background: rgba(255,255,255,.8);
-      box-shadow: 0 0 15px 10px rgba(255,255,255,.35);
+      background: rgba(255,255,255,.75);
+      box-shadow:
+        0 0 8px rgba(255,255,255,.5),
+        0 0 18px rgba(var(--accent), .3);
       animation: fall linear infinite;
     }
 
     @keyframes fall {
       0% {
-        transform: scale(0);
-        top: -50px;
+        transform: translate3d(0,-50px,0) scale(0);
+        opacity: 0;
       }
-      2% {
-        transform: scale(1);
-        top: -50px;
+
+      5% {
+        opacity: .8;
+        transform: translate3d(0,-30px,0) scale(1);
       }
+
+      50% {
+        transform: translate3d(30px,50vh,0) scale(1);
+      }
+
       100% {
-        transform: scale(0);
-        top: 100%;
+        transform: translate3d(-30px,110vh,0) scale(.2);
+        opacity: 0;
       }
     }
 
+    /* =========================
+       CARD
+    ========================= */
+
     .card {
-      background: #2b2d31;
-      border-radius: 20px;
       width: 100%;
       max-width: 380px;
       padding: 28px 24px 32px;
       position: relative;
       z-index: 1;
-      border: 1px solid transparent;
-      transition: border-color .3s ease, box-shadow .3s ease, transform .25s ease, background .6s ease;
-      box-shadow: 0 8px 32px rgba(0,0,0,.5);
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,.045),
+          rgba(255,255,255,.015)
+        ),
+        var(--card);
+
+      border: 1px solid rgba(255,255,255,.09);
+      border-radius: 22px;
+
+      box-shadow:
+        0 30px 80px rgba(0,0,0,.65),
+        0 0 0 1px rgba(255,255,255,.025),
+        0 0 45px rgba(var(--accent), .08);
+
+      backdrop-filter: blur(18px);
+
+      transform-style: preserve-3d;
+      will-change: transform;
+
+      animation:
+        cardEnter .9s cubic-bezier(.16,1,.3,1) both,
+        cardFloat 7s ease-in-out 1s infinite;
+
+      transition:
+        background .8s ease,
+        box-shadow .5s ease,
+        border-color .5s ease;
     }
 
-    .card:hover {
-      border-color: #fff;
-      box-shadow:
-        0 0 0 1px #fff,
-        0 0 24px rgba(255,255,255,.35),
-        0 12px 40px rgba(0,0,0,.6);
-      transform: translateY(-2px);
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -1px;
+      border-radius: 23px;
+      padding: 1px;
+
+      background:
+        linear-gradient(
+          120deg,
+          transparent 15%,
+          rgba(var(--accent), .5),
+          transparent 45%,
+          transparent 70%,
+          rgba(255,255,255,.15)
+        );
+
+      background-size: 250% 250%;
+      animation: borderFlow 7s linear infinite;
+
+      -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+
+      pointer-events: none;
     }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background:
+        radial-gradient(
+          circle at 50% 0%,
+          rgba(var(--accent), .12),
+          transparent 38%
+        );
+      pointer-events: none;
+    }
+
+    .card > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    @keyframes cardEnter {
+      from {
+        opacity: 0;
+        transform: translateY(35px) scale(.94) rotateX(5deg);
+        filter: blur(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1) rotateX(0);
+        filter: blur(0);
+      }
+    }
+
+    @keyframes cardFloat {
+      0%,100% {
+        margin-top: 0;
+      }
+      50% {
+        margin-top: -5px;
+      }
+    }
+
+    @keyframes borderFlow {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    /* =========================
+       VIEWS
+    ========================= */
 
     .views {
       position: absolute;
       top: 14px;
       left: 14px;
+
       display: flex;
       align-items: center;
-      gap: 5px;
-      font-size: .78rem;
-      color: rgba(255,255,255,.55);
+      gap: 6px;
+
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .02em;
+
+      color: rgba(255,255,255,.65);
+
       background: rgba(0,0,0,.25);
-      padding: 4px 9px;
+      border: 1px solid rgba(255,255,255,.06);
+
+      padding: 5px 10px;
       border-radius: 20px;
-      backdrop-filter: blur(4px);
+
+      backdrop-filter: blur(10px);
+
+      box-shadow:
+        0 0 15px rgba(var(--accent), .05);
+
+      transition: .3s ease;
+    }
+
+    .views:hover {
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow:
+        0 0 20px rgba(var(--accent), .2);
     }
 
     .views svg {
       width: 14px;
       height: 14px;
       fill: currentColor;
+      filter: drop-shadow(0 0 5px currentColor);
     }
+
+    #view-count {
+      animation: countPulse 3s ease-in-out infinite;
+    }
+
+    @keyframes countPulse {
+      50% {
+        text-shadow: 0 0 12px rgba(var(--accent), .7);
+      }
+    }
+
+    /* =========================
+       AUDIO
+    ========================= */
 
     .audio-toggle {
       position: absolute;
       top: 14px;
       right: 14px;
-      width: 30px;
-      height: 30px;
-      border: none;
+
+      width: 32px;
+      height: 32px;
+
+      border: 1px solid rgba(255,255,255,.08);
       border-radius: 50%;
+
       background: rgba(0,0,0,.25);
-      color: rgba(255,255,255,.75);
+      color: rgba(255,255,255,.8);
+
       display: flex;
       align-items: center;
       justify-content: center;
+
       cursor: pointer;
-      backdrop-filter: blur(4px);
-      transition: background .2s ease, color .2s ease;
+
+      backdrop-filter: blur(10px);
+
+      transition: .3s ease;
     }
 
     .audio-toggle:hover {
-      background: rgba(0,0,0,.4);
       color: #fff;
+      transform: rotate(12deg) scale(1.12);
+      box-shadow:
+        0 0 20px rgba(var(--accent), .35);
+    }
+
+    .audio-toggle:not(.muted) {
+      animation: audioPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes audioPulse {
+      50% {
+        box-shadow:
+          0 0 0 5px rgba(var(--accent), .04),
+          0 0 22px rgba(var(--accent), .25);
+      }
     }
 
     .audio-toggle svg {
@@ -138,142 +389,365 @@
     }
 
     .audio-toggle.muted svg {
-      opacity: .45;
+      opacity: .4;
     }
+
+    /* =========================
+       AVATAR
+    ========================= */
 
     .avatar-wrap {
       position: relative;
-      width: 96px;
-      height: 96px;
+      width: 104px;
+      height: 104px;
       margin: 0 auto 18px;
       cursor: pointer;
     }
 
-    .avatar-wrap:hover .avatar {
-      filter: brightness(.85);
+    .avatar-wrap::before {
+      content: "";
+      position: absolute;
+      inset: -7px;
+      border-radius: 50%;
+
+      background:
+        conic-gradient(
+          from 0deg,
+          transparent,
+          rgba(var(--accent), .9),
+          transparent 30%,
+          rgba(255,255,255,.4),
+          transparent 70%
+        );
+
+      animation: avatarRing 4s linear infinite;
+
+      filter:
+        blur(1px)
+        drop-shadow(0 0 8px rgba(var(--accent), .45));
     }
 
     .avatar-wrap::after {
-      content: '';
+      content: "";
       position: absolute;
-      inset: 0;
+      inset: -3px;
       border-radius: 50%;
-      box-shadow: 0 0 0 0 rgba(255,255,255,0);
-      transition: box-shadow .2s ease;
-      pointer-events: none;
+      background: var(--card);
+      z-index: 0;
     }
 
-    .avatar-wrap:hover::after {
-      box-shadow: 0 0 0 3px rgba(255,255,255,.25);
+    @keyframes avatarRing {
+      to {
+        transform: rotate(360deg);
+      }
     }
 
     .avatar {
-      width: 96px;
-      height: 96px;
+      position: relative;
+      z-index: 1;
+
+      width: 104px;
+      height: 104px;
+
       border-radius: 50%;
       object-fit: cover;
-      border: 4px solid #2b2d31;
+
+      border: 4px solid var(--card);
       background: #1e1f22;
+
       display: block;
-      transition: border-color .6s ease, filter .2s ease;
+
+      transition:
+        transform .4s cubic-bezier(.16,1,.3,1),
+        filter .4s ease,
+        box-shadow .4s ease;
+    }
+
+    .avatar-wrap:hover .avatar {
+      transform: scale(1.06);
+      filter: brightness(1.08) saturate(1.15);
+
+      box-shadow:
+        0 0 25px rgba(var(--accent), .35);
     }
 
     .status-dot {
       position: absolute;
-      bottom: 4px;
-      right: 4px;
-      width: 22px;
-      height: 22px;
+      z-index: 3;
+
+      bottom: 3px;
+      right: 3px;
+
+      width: 23px;
+      height: 23px;
+
       border-radius: 50%;
-      border: 4px solid #2b2d31;
-      background: #747f8d;
-      transition: border-color .6s ease;
+
+      border: 4px solid var(--card);
+
+      transition: .5s ease;
     }
 
     .status-dot.online {
       background: #23a559;
+      box-shadow:
+        0 0 0 0 rgba(35,165,89,.6);
+      animation: onlinePulse 2s infinite;
     }
 
     .status-dot.idle {
       background: #f0b232;
+      box-shadow: 0 0 12px rgba(240,178,50,.5);
     }
 
     .status-dot.dnd {
       background: #f23f43;
+      box-shadow: 0 0 12px rgba(242,63,67,.5);
     }
 
     .status-dot.offline {
       background: #747f8d;
     }
 
+    @keyframes onlinePulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(35,165,89,.55);
+      }
+      70% {
+        box-shadow: 0 0 0 9px rgba(35,165,89,0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(35,165,89,0);
+      }
+    }
+
+    /* =========================
+       TEXT
+    ========================= */
+
     .username {
       text-align: center;
-      font-size: 1.35rem;
-      font-weight: 700;
-      letter-spacing: -.02em;
+      font-size: 1.4rem;
+      font-weight: 800;
+      letter-spacing: -.035em;
       margin-bottom: 4px;
-      min-height: 1.6em;
+
+      background:
+        linear-gradient(
+          90deg,
+          #fff,
+          rgba(var(--accent), .65),
+          #fff,
+          rgba(var(--accent), .65),
+          #fff
+        );
+
+      background-size: 250% auto;
+
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+
+      animation:
+        usernameShine 5s linear infinite,
+        usernameGlow 2.8s ease-in-out infinite;
+    }
+
+    @keyframes usernameShine {
+      to {
+        background-position: 250% center;
+      }
+    }
+
+    @keyframes usernameGlow {
+      0%,100% {
+        filter:
+          drop-shadow(0 0 3px rgba(var(--accent), .25));
+      }
+
+      50% {
+        filter:
+          drop-shadow(0 0 10px rgba(var(--accent), .65))
+          drop-shadow(0 0 25px rgba(var(--accent), .18));
+      }
     }
 
     .handle {
       text-align: center;
-      font-size: .9rem;
+      font-size: .88rem;
       color: #b5bac1;
-      margin-bottom: 14px;
+      margin-bottom: 15px;
+
+      text-shadow:
+        0 0 8px rgba(var(--accent), .12);
+
+      transition: .3s ease;
     }
+
+    .handle:hover {
+      color: #fff;
+      text-shadow:
+        0 0 12px rgba(var(--accent), .5);
+    }
+
+    /* =========================
+       BADGES
+    ========================= */
 
     .badges {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 6px;
+      gap: 7px;
       min-height: 28px;
-      margin-bottom: 18px;
+      margin-bottom: 19px;
     }
 
     .badge {
       width: 24px;
       height: 24px;
-      border-radius: 4px;
-      transition: transform .15s ease;
+
+      border-radius: 5px;
+
+      filter:
+        drop-shadow(0 0 3px rgba(var(--accent), .15));
+
+      transition:
+        transform .3s cubic-bezier(.16,1,.3,1),
+        filter .3s ease;
+      
+      animation: badgeAppear .5s cubic-bezier(.16,1,.3,1) both;
     }
 
     .badge:hover {
-      transform: scale(1.15);
+      transform:
+        translateY(-5px)
+        scale(1.25)
+        rotate(5deg);
+
+      filter:
+        drop-shadow(0 0 5px rgba(var(--accent), .8))
+        drop-shadow(0 0 12px rgba(var(--accent), .35));
+    }
+
+    @keyframes badgeAppear {
+      from {
+        opacity: 0;
+        transform: translateY(10px) scale(.5);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* =========================
+       BIO
+    ========================= */
+
+    .bio-label {
+      font-size: .68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .11em;
+
+      color: #949ba4;
+
+      margin-bottom: 7px;
+      padding-left: 2px;
+
+      text-shadow:
+        0 0 8px rgba(var(--accent), .15);
     }
 
     .bio-box {
-      background: #1e1f22;
-      border-radius: 12px;
-      padding: 14px 16px;
-      font-size: .95rem;
-      line-height: 1.5;
+      position: relative;
+
+      background: var(--dark);
+
+      border: 1px solid rgba(255,255,255,.05);
+      border-radius: 13px;
+
+      padding: 15px 16px;
+
+      font-size: .94rem;
+      line-height: 1.55;
+
       color: #dbdee1;
+
       text-align: center;
       word-break: break-word;
-      transition: background .6s ease;
-      min-height: 3.2em;
+
+      min-height: 3.4em;
+
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.025),
+        0 0 20px rgba(var(--accent), .025);
+
+      transition:
+        transform .3s ease,
+        box-shadow .4s ease,
+        border-color .4s ease;
     }
 
-    .bio-label {
-      font-size: .7rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: .06em;
-      color: #949ba4;
-      margin-bottom: 6px;
-      text-align: left;
+    .bio-box:hover {
+      transform: translateY(-2px);
+
+      border-color:
+        rgba(var(--accent), .18);
+
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.04),
+        0 8px 30px rgba(0,0,0,.25),
+        0 0 25px rgba(var(--accent), .08);
+    }
+
+    .bio-box::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 12%;
+      width: 76%;
+      height: 1px;
+
+      background:
+        linear-gradient(
+          90deg,
+          transparent,
+          rgba(var(--accent), .6),
+          transparent
+        );
+
+      opacity: .5;
+      animation: bioLine 3s ease-in-out infinite;
+    }
+
+    @keyframes bioLine {
+      50% {
+        opacity: 1;
+        width: 55%;
+        left: 22%;
+      }
     }
 
     .typing::after {
-      content: '';
+      content: "";
       display: inline-block;
+
       width: 2px;
       height: 1em;
-      margin-left: 2px;
+
+      margin-left: 3px;
       vertical-align: text-bottom;
+
       background: currentColor;
-      animation: tw-blink .85s steps(1) infinite;
+
+      box-shadow:
+        0 0 7px currentColor;
+
+      animation:
+        tw-blink .8s steps(1) infinite;
     }
 
     @keyframes tw-blink {
@@ -282,58 +756,140 @@
       }
     }
 
+    /* =========================
+       LINKS
+    ========================= */
+
     .links {
       display: flex;
       justify-content: center;
       gap: 14px;
-      margin-top: 22px;
+      margin-top: 23px;
     }
 
     .link-icon {
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
-      background: #1e1f22;
+      width: 44px;
+      height: 44px;
+
+      border-radius: 13px;
+
+      background: var(--dark);
+
+      border: 1px solid rgba(255,255,255,.05);
+
       display: flex;
       align-items: center;
       justify-content: center;
+
       color: #dbdee1;
-      transition: background .2s ease, color .2s ease, transform .2s ease, box-shadow .2s ease;
+
       text-decoration: none;
+
+      position: relative;
+      overflow: hidden;
+
+      transition:
+        background .3s ease,
+        color .3s ease,
+        transform .3s cubic-bezier(.16,1,.3,1),
+        box-shadow .3s ease;
+    }
+
+    .link-icon::before {
+      content: "";
+      position: absolute;
+      width: 70px;
+      height: 70px;
+
+      background:
+        radial-gradient(
+          circle,
+          rgba(var(--accent), .25),
+          transparent 65%
+        );
+
+      transform: scale(0);
+      transition: transform .4s ease;
+    }
+
+    .link-icon:hover::before {
+      transform: scale(2);
     }
 
     .link-icon svg {
+      position: relative;
+      z-index: 1;
+
       width: 20px;
       height: 20px;
       fill: currentColor;
+
+      filter:
+        drop-shadow(0 0 3px currentColor);
+
+      transition: transform .3s ease;
     }
 
     .link-icon:hover {
-      background: #fff;
-      color: #000;
-      transform: translateY(-3px) scale(1.05);
-      box-shadow: 0 6px 16px rgba(255,255,255,.25);
+      color: #fff;
+
+      transform:
+        translateY(-5px)
+        scale(1.08);
+
+      border-color:
+        rgba(var(--accent), .25);
+
+      box-shadow:
+        0 10px 25px rgba(0,0,0,.3),
+        0 0 25px rgba(var(--accent), .2);
     }
 
-    .footer {
-      margin-top: 16px;
-      text-align: center;
-      font-size: .75rem;
-      color: #6d6f78;
+    .link-icon:hover svg {
+      transform: scale(1.15) rotate(-5deg);
     }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    .footer {
+      margin-top: 17px;
+      text-align: center;
+      font-size: .7rem;
+      color: #6d6f78;
+
+      text-shadow:
+        0 0 8px rgba(var(--accent), .1);
+    }
+
+    /* =========================
+       MODAL
+    ========================= */
 
     .friends-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,.65);
-      backdrop-filter: blur(3px);
+
+      background:
+        radial-gradient(
+          circle at center,
+          rgba(var(--accent), .08),
+          transparent 45%
+        ),
+        rgba(0,0,0,.72);
+
+      backdrop-filter: blur(12px);
+
       display: none;
       align-items: center;
       justify-content: center;
+
       z-index: 10;
       padding: 20px;
+
       opacity: 0;
-      transition: opacity .2s ease;
+      transition: opacity .3s ease;
     }
 
     .friends-overlay.open {
@@ -342,73 +898,123 @@
     }
 
     .friends-modal {
-      background: #2b2d31;
-      border-radius: 16px;
+      position: relative;
+
+      background: var(--card);
+
+      border: 1px solid rgba(255,255,255,.1);
+
+      border-radius: 18px;
+
       width: 100%;
       max-width: 360px;
       max-height: 80vh;
+
       overflow-y: auto;
+
       padding: 20px;
-      transform: translateY(10px) scale(.98);
-      transition: transform .2s ease, background .6s ease, box-shadow .6s ease;
-      box-shadow: 0 16px 48px rgba(0,0,0,.6);
+
+      transform:
+        translateY(25px)
+        scale(.92)
+        rotateX(5deg);
+
+      transition:
+        transform .45s cubic-bezier(.16,1,.3,1),
+        box-shadow .5s ease;
+
+      box-shadow:
+        0 25px 80px rgba(0,0,0,.7),
+        0 0 40px rgba(var(--accent), .08);
+
+      scrollbar-width: thin;
     }
 
     .friends-overlay.open .friends-modal {
-      transform: translateY(0) scale(1);
+      transform:
+        translateY(0)
+        scale(1)
+        rotateX(0);
     }
 
     .friends-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 14px;
+      margin-bottom: 15px;
     }
 
     .friends-title {
       font-size: 1rem;
-      font-weight: 700;
+      font-weight: 800;
+
+      text-shadow:
+        0 0 12px rgba(var(--accent), .3);
     }
 
     .friends-close {
-      width: 28px;
-      height: 28px;
-      border: none;
+      width: 29px;
+      height: 29px;
+
+      border: 1px solid rgba(255,255,255,.05);
       border-radius: 50%;
-      background: #1e1f22;
+
+      background: var(--dark);
       color: #dbdee1;
+
       display: flex;
       align-items: center;
       justify-content: center;
+
       cursor: pointer;
-      font-size: 1.1rem;
-      line-height: 1;
-      transition: background .15s ease, color .15s ease;
+
+      transition: .3s ease;
     }
 
     .friends-close:hover {
       background: #fff;
       color: #000;
+
+      transform: rotate(90deg) scale(1.1);
+
+      box-shadow:
+        0 0 18px rgba(255,255,255,.25);
     }
 
     .friends-list {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 9px;
     }
 
     .friend-item {
       display: flex;
       align-items: center;
       gap: 12px;
-      background: #1e1f22;
-      border-radius: 10px;
+
+      background: var(--dark);
+
+      border: 1px solid rgba(255,255,255,.04);
+
+      border-radius: 12px;
+
       padding: 10px 12px;
-      transition: background .2s ease, box-shadow .2s ease;
+
+      transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        border-color .25s ease;
     }
 
     .friend-item:hover {
-      background: #232428;
+      transform: translateX(4px);
+
+      border-color:
+        rgba(var(--accent), .15);
+
+      box-shadow:
+        0 7px 25px rgba(0,0,0,.25),
+        0 0 18px rgba(var(--accent), .06);
     }
 
     .friend-avatar-wrap {
@@ -421,11 +1027,21 @@
     .friend-avatar {
       width: 40px;
       height: 40px;
+
       border-radius: 50%;
       object-fit: cover;
-      background: #2b2d31;
+
+      background: var(--card);
+
       display: block;
-      transition: box-shadow .3s ease;
+
+      transition:
+        transform .3s ease,
+        box-shadow .3s ease;
+    }
+
+    .friend-item:hover .friend-avatar {
+      transform: scale(1.08);
     }
 
     .friend-info {
@@ -438,6 +1054,7 @@
       font-size: .92rem;
       font-weight: 600;
       color: #fff;
+
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -446,6 +1063,7 @@
     .friend-username {
       font-size: .78rem;
       color: #949ba4;
+
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -462,24 +1080,49 @@
       width: 17px;
       height: 17px;
       border-radius: 3px;
+
+      filter:
+        drop-shadow(0 0 3px rgba(var(--accent), .3));
     }
+
+    /* =========================
+       MOBILE
+    ========================= */
 
     @media (max-width: 480px) {
       body {
-        padding: 16px;
+        padding: 15px;
       }
 
       .card {
         max-width: 380px;
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+    }
+
+    /* =========================
+       REDUCED MOTION
+    ========================= */
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
       }
     }
   </style>
 </head>
 
 <body>
+
   <div id="snow"></div>
 
   <div class="card" id="card">
+
     <div class="views" id="views">
       <svg viewBox="0 0 24 24">
         <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
@@ -487,68 +1130,131 @@
       <span id="view-count">–</span>
     </div>
 
-    <button class="audio-toggle" id="audio-toggle" title="Toggle sound" aria-label="Toggle sound">
+    <button
+      class="audio-toggle"
+      id="audio-toggle"
+      title="Toggle sound"
+      aria-label="Toggle sound"
+    >
       <svg id="audio-icon" viewBox="0 0 24 24">
         <path d="M3 10v4h4l5 5V5L7 10H3zm13.5 2c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
       </svg>
     </button>
 
-    <audio id="bg-audio" src="https://raw.githubusercontent.com/cuckedd/cuck/main/ssstik.io_1790198739810.mp3" loop preload="auto"></audio>
+    <audio
+      id="bg-audio"
+      src="https://raw.githubusercontent.com/cuckedd/cuck/main/ssstik.io_1790198739810.mp3"
+      loop
+      preload="auto"
+    ></audio>
 
     <div class="avatar-wrap" id="avatar-wrap" title="See friends">
-      <img class="avatar" id="avatar" src="" alt="Avatar" crossorigin="anonymous">
+      <img
+        class="avatar"
+        id="avatar"
+        src=""
+        alt="Avatar"
+        crossorigin="anonymous"
+      >
+
       <div class="status-dot offline" id="status"></div>
     </div>
 
     <div class="username" id="username">Loading…</div>
+
     <div class="handle" id="handle">@…</div>
+
     <div class="badges" id="badges"></div>
 
     <div class="bio-label">About Me</div>
+
     <div class="bio-box" id="bio"></div>
 
     <div class="links">
-      <a class="link-icon" href="https://t.me/xbtie" target="_blank" rel="noopener" title="Telegram">
+
+      <a
+        class="link-icon"
+        href="https://t.me/xbtie"
+        target="_blank"
+        rel="noopener"
+        title="Telegram"
+      >
         <svg viewBox="0 0 24 24">
           <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
         </svg>
       </a>
 
-      <a class="link-icon" href="mailto:reject@cuck.mom" title="Email">
+      <a
+        class="link-icon"
+        href="mailto:reject@cuck.mom"
+        title="Email"
+      >
         <svg viewBox="0 0 24 24">
           <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
         </svg>
       </a>
+
     </div>
 
     <div class="footer" id="footer"></div>
+
   </div>
 
   <div class="friends-overlay" id="friends-overlay">
+
     <div class="friends-modal" id="friends-modal">
+
       <div class="friends-header">
-        <div class="friends-title">Friends</div>
-        <button class="friends-close" id="friends-close" aria-label="Close">✕</button>
+
+        <div class="friends-title">
+          Friends
+        </div>
+
+        <button
+          class="friends-close"
+          id="friends-close"
+          aria-label="Close"
+        >
+          ✕
+        </button>
+
       </div>
 
       <div class="friends-list" id="friends-list">
-        <div style="color:#949ba4;font-size:.85rem;text-align:center;padding:12px 0;">Loading…</div>
+        <div style="
+          color:#949ba4;
+          font-size:.85rem;
+          text-align:center;
+          padding:12px 0;
+        ">
+          Loading…
+        </div>
       </div>
+
     </div>
+
   </div>
 
   <script>
+
+    /* =========================
+       CONFIG
+    ========================= */
+
     const DISCORD_ID = "1538289285327888518";
 
-    const BIO_TEXT = "Unfortunately my hamster Rachid Johnson died meskien.";
+    const BIO_TEXT =
+      "Unfortunately my hamster Rachid Johnson died meskien.";
 
     const FRIEND_IDS = [
       "707887497153216562"
     ];
 
-    const FRIEND_PROFILE_API = "https://discord-lookup.lookupbotdc.workers.dev/search/";
+    const FRIEND_PROFILE_API =
+      "https://discord-lookup.lookupbotdc.workers.dev/search/";
 
-    const COUNTER_KEY = "reject-bio-" + DISCORD_ID;
+    const COUNTER_KEY =
+      "reject-bio-" + DISCORD_ID;
 
     const BADGE_MAP = [
       { flag: 1 << 0, file: "staff.svg", name: "Discord Staff" },
@@ -565,71 +1271,114 @@
       { flag: 1 << 22, file: "active_developer.svg", name: "Active Developer" }
     ];
 
-    const BADGE_CDN = "https://cdn.jsdelivr.net/gh/merlinfuchs/discord-badges@latest/SVG/";
+    const BADGE_CDN =
+      "https://cdn.jsdelivr.net/gh/merlinfuchs/discord-badges@latest/SVG/";
 
     let currentTheme = {
       card: "#2b2d31",
       darker: "#1e1f22",
-      body: "#000",
+      body: "#080808",
       accent: "#fff"
     };
 
     let hasIntroed = false;
     let friendsLoaded = false;
-
     let themeLocked = false;
 
+    /* =========================
+       SNOW
+    ========================= */
+
     function createSnow() {
+
       const snow = document.getElementById("snow");
 
-      for (let i = 0; i < 80; i++) {
+      for (let i = 0; i < 85; i++) {
+
         const dot = document.createElement("div");
+
         dot.className = "b";
 
-        const size = Math.floor(Math.random() * 10) + 2;
-        const left = (i / 80) * 100;
-        const duration = Math.floor(Math.random() * 20) + 11;
-        const delay = Math.floor(Math.random() * 12);
+        const size =
+          Math.floor(Math.random() * 8) + 2;
+
+        const left =
+          Math.random() * 100;
+
+        const duration =
+          Math.floor(Math.random() * 20) + 12;
+
+        const delay =
+          Math.random() * 15;
 
         dot.style.left = `${left}%`;
         dot.style.width = `${size}px`;
         dot.style.height = `${size}px`;
         dot.style.animationDuration = `${duration}s`;
         dot.style.animationDelay = `${delay}s`;
+        dot.style.opacity = Math.random() * .7 + .2;
 
         snow.appendChild(dot);
       }
     }
 
+    /* =========================
+       BADGES
+    ========================= */
+
     function getBadges(publicFlags) {
-      return BADGE_MAP.filter(b => (publicFlags & b.flag) === b.flag);
+
+      return BADGE_MAP.filter(
+        b => (publicFlags & b.flag) === b.flag
+      );
     }
 
+    /* =========================
+       AVATAR
+    ========================= */
+
     function avatarUrl(user) {
+
       if (user.avatar_url) {
         return user.avatar_url;
       }
 
       if (!user.avatar) {
-        const discriminator = user.discriminator || "0";
 
-        const idx = discriminator === "0"
-          ? Number((BigInt(user.id) >> 22n) % 6n)
-          : parseInt(discriminator) % 5;
+        const discriminator =
+          user.discriminator || "0";
+
+        const idx =
+          discriminator === "0"
+            ? Number(
+                (BigInt(user.id) >> 22n) % 6n
+              )
+            : parseInt(discriminator) % 5;
 
         return `https://cdn.discordapp.com/embed/avatars/${idx}.png`;
       }
 
-      const ext = user.avatar.startsWith("a_") ? "gif" : "png";
+      const ext =
+        user.avatar.startsWith("a_")
+          ? "gif"
+          : "png";
 
-      return `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.${ext}?size=128`;
+      return `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.${ext}?size=256`;
     }
 
+    /* =========================
+       THEME
+    ========================= */
+
     function themeFromProfile(user) {
+
       if (user.banner_color) {
-        const hex = user.banner_color.replace("#", "");
+
+        const hex =
+          user.banner_color.replace("#", "");
 
         if (hex.length === 6) {
+
           return {
             r: parseInt(hex.slice(0, 2), 16),
             g: parseInt(hex.slice(2, 4), 16),
@@ -639,6 +1388,7 @@
       }
 
       if (typeof user.accent_color === "number") {
+
         return {
           r: (user.accent_color >> 16) & 255,
           g: (user.accent_color >> 8) & 255,
@@ -650,32 +1400,63 @@
     }
 
     function getDominantColor(img) {
+
       try {
-        const canvas = document.createElement("canvas");
+
+        const canvas =
+          document.createElement("canvas");
+
         const size = 40;
 
         canvas.width = size;
         canvas.height = size;
 
-        const ctx = canvas.getContext("2d");
+        const ctx =
+          canvas.getContext("2d");
 
-        ctx.drawImage(img, 0, 0, size, size);
+        ctx.drawImage(
+          img,
+          0,
+          0,
+          size,
+          size
+        );
 
-        const data = ctx.getImageData(0, 0, size, size).data;
+        const data =
+          ctx.getImageData(
+            0,
+            0,
+            size,
+            size
+          ).data;
 
         let r = 0;
         let g = 0;
         let b = 0;
         let count = 0;
 
-        for (let i = 0; i < data.length; i += 4) {
-          const brightness = (data[i] + data[i + 1] + data[i + 2]) / 3;
+        for (
+          let i = 0;
+          i < data.length;
+          i += 4
+        ) {
 
-          if (brightness < 25 || brightness > 230) continue;
+          const brightness =
+            (
+              data[i] +
+              data[i + 1] +
+              data[i + 2]
+            ) / 3;
+
+          if (
+            brightness < 25 ||
+            brightness > 230
+          ) continue;
 
           r += data[i];
           g += data[i + 1];
           b += data[i + 2];
+
           count++;
         }
 
@@ -688,86 +1469,120 @@
         b = Math.round(b / count);
 
         return {
-          r: Math.round(r * .35),
-          g: Math.round(g * .35),
-          b: Math.round(b * .35)
+          r: Math.round(r * .4),
+          g: Math.round(g * .4),
+          b: Math.round(b * .4)
         };
+
       } catch {
         return null;
       }
     }
 
-    function rgb(color) {
-      return `rgb(${color.r}, ${color.g}, ${color.b})`;
-    }
-
     function applyTheme(color) {
+
       const { r, g, b } = color;
 
-      const cardBg = `rgb(
-        ${Math.min(255, r + 28)},
-        ${Math.min(255, g + 28)},
-        ${Math.min(255, b + 28)}
-      )`;
+      const cardBg =
+        `rgb(
+          ${Math.min(255, r + 28)},
+          ${Math.min(255, g + 28)},
+          ${Math.min(255, b + 28)}
+        )`;
 
-      const darker = `rgb(${r}, ${g}, ${b})`;
+      const darker =
+        `rgb(${r}, ${g}, ${b})`;
 
-      const bodyBg = `rgb(
-        ${Math.max(0, r - 12)},
-        ${Math.max(0, g - 12)},
-        ${Math.max(0, b - 12)}
-      )`;
+      const bodyBg =
+        `rgb(
+          ${Math.max(0, r - 12)},
+          ${Math.max(0, g - 12)},
+          ${Math.max(0, b - 12)}
+        )`;
 
       currentTheme = {
         card: cardBg,
         darker,
         body: bodyBg,
-        accent: `rgb(${Math.min(255, r + 100)}, ${Math.min(255, g + 100)}, ${Math.min(255, b + 100)})`
+        accent:
+          `rgb(
+            ${Math.min(255, r + 100)},
+            ${Math.min(255, g + 100)},
+            ${Math.min(255, b + 100)}
+          )`
       };
 
-      document.body.style.background = bodyBg;
+      document.documentElement.style.setProperty(
+        "--accent",
+        `${r}, ${g}, ${b}`
+      );
 
-      document.getElementById("card").style.background = cardBg;
+      document.documentElement.style.setProperty(
+        "--card",
+        cardBg
+      );
 
-      document.querySelectorAll(".avatar, .status-dot").forEach(el => {
-        el.style.borderColor = cardBg;
-      });
+      document.documentElement.style.setProperty(
+        "--dark",
+        darker
+      );
 
-      document.querySelectorAll(".bio-box, .link-icon").forEach(el => {
-        el.style.background = darker;
-      });
+      document.documentElement.style.setProperty(
+        "--bg",
+        bodyBg
+      );
 
-      document.getElementById("friends-modal").style.background = cardBg;
+      document.body.style.background =
+        `radial-gradient(
+          circle at 50% 50%,
+          rgba(${r},${g},${b},.08),
+          transparent 40%
+        ), ${bodyBg}`;
 
-      document.querySelectorAll(".friend-item").forEach(el => {
-        el.style.background = darker;
-      });
-
-      document.querySelectorAll(".friends-close").forEach(el => {
-        el.style.background = darker;
-      });
-
-      document.querySelectorAll(".friend-avatar").forEach(el => {
-        el.style.background = cardBg;
-      });
+      document
+        .getElementById("card")
+        .style.background =
+          `linear-gradient(
+            145deg,
+            rgba(255,255,255,.045),
+            rgba(255,255,255,.015)
+          ), ${cardBg}`;
 
       themeLocked = true;
     }
 
+    /* =========================
+       TYPING
+    ========================= */
+
     function typeText(el, text, speed) {
+
       return new Promise(resolve => {
+
         el.textContent = "";
+
         el.classList.add("typing");
 
         let i = 0;
 
         function tick() {
+
           if (i <= text.length) {
-            el.textContent = text.slice(0, i);
+
+            el.textContent =
+              text.slice(0, i);
+
             i++;
-            setTimeout(tick, speed);
+
+            setTimeout(
+              tick,
+              speed
+            );
+
           } else {
+
             el.classList.remove("typing");
+
             resolve();
           }
         }
@@ -776,181 +1591,342 @@
       });
     }
 
+    /* =========================
+       VIEWS
+    ========================= */
+
     async function loadViews() {
+
       try {
-        const res = await fetch(
-          "https://countapi.mileshilliard.com/api/v1/hit/" + COUNTER_KEY
-        );
 
-        const data = await res.json();
+        const res =
+          await fetch(
+            "https://countapi.mileshilliard.com/api/v1/hit/" +
+            COUNTER_KEY
+          );
 
-        const value = data.value ?? data.count ?? 0;
+        const data =
+          await res.json();
 
-        document.getElementById("view-count").textContent =
-          Number(value).toLocaleString();
+        const value =
+          data.value ??
+          data.count ??
+          0;
+
+        document
+          .getElementById("view-count")
+          .textContent =
+            Number(value).toLocaleString();
+
       } catch {
-        document.getElementById("view-count").textContent = "–";
+
+        document
+          .getElementById("view-count")
+          .textContent = "–";
       }
     }
 
+    /* =========================
+       AUDIO
+    ========================= */
+
     function initAudio() {
-      const audio = document.getElementById("bg-audio");
-      const toggle = document.getElementById("audio-toggle");
+
+      const audio =
+        document.getElementById("bg-audio");
+
+      const toggle =
+        document.getElementById("audio-toggle");
 
       function updateIcon() {
-        toggle.classList.toggle("muted", audio.paused);
+
+        toggle.classList.toggle(
+          "muted",
+          audio.paused
+        );
       }
 
-      audio.play()
+      audio
+        .play()
         .then(updateIcon)
         .catch(() => {
+
           updateIcon();
 
           const startOnInteract = () => {
-            audio.play()
+
+            audio
+              .play()
               .then(updateIcon)
               .catch(() => {});
 
-            window.removeEventListener("click", startOnInteract);
-            window.removeEventListener("keydown", startOnInteract);
-            window.removeEventListener("touchstart", startOnInteract);
+            window.removeEventListener(
+              "click",
+              startOnInteract
+            );
+
+            window.removeEventListener(
+              "keydown",
+              startOnInteract
+            );
+
+            window.removeEventListener(
+              "touchstart",
+              startOnInteract
+            );
           };
 
-          window.addEventListener("click", startOnInteract);
-          window.addEventListener("keydown", startOnInteract);
-          window.addEventListener("touchstart", startOnInteract);
+          window.addEventListener(
+            "click",
+            startOnInteract
+          );
+
+          window.addEventListener(
+            "keydown",
+            startOnInteract
+          );
+
+          window.addEventListener(
+            "touchstart",
+            startOnInteract
+          );
         });
 
-      toggle.addEventListener("click", e => {
-        e.stopPropagation();
+      toggle.addEventListener(
+        "click",
+        e => {
 
-        if (audio.paused) {
-          audio.play()
-            .then(updateIcon)
-            .catch(() => {});
-        } else {
-          audio.pause();
-          updateIcon();
+          e.stopPropagation();
+
+          if (audio.paused) {
+
+            audio
+              .play()
+              .then(updateIcon)
+              .catch(() => {});
+
+          } else {
+
+            audio.pause();
+
+            updateIcon();
+          }
         }
-      });
+      );
     }
 
+    /* =========================
+       PROFILE
+    ========================= */
+
     function render(data) {
-      const user = data.discord_user;
-      const status = data.discord_status || "offline";
-      const url = avatarUrl(user);
-      const avatar = document.getElementById("avatar");
+
+      const user =
+        data.discord_user;
+
+      const status =
+        data.discord_status || "offline";
+
+      const url =
+        avatarUrl(user);
+
+      const avatar =
+        document.getElementById("avatar");
 
       if (!themeLocked) {
-        const profileTheme = themeFromProfile(user);
+
+        const profileTheme =
+          themeFromProfile(user);
 
         if (profileTheme) {
+
           applyTheme(profileTheme);
+
         } else {
+
           avatar.onload = () => {
+
             if (themeLocked) return;
 
-            const dominant = getDominantColor(avatar);
+            const dominant =
+              getDominantColor(avatar);
 
-            applyTheme(dominant || { r: 20, g: 20, b: 24 });
+            applyTheme(
+              dominant ||
+              {
+                r: 20,
+                g: 20,
+                b: 24
+              }
+            );
           };
 
           avatar.onerror = () => {
+
             if (themeLocked) return;
-            applyTheme({ r: 20, g: 20, b: 24 });
+
+            applyTheme({
+              r: 20,
+              g: 20,
+              b: 24
+            });
           };
         }
       }
 
       avatar.src = url;
 
-      const displayName = user.global_name || user.username;
+      const displayName =
+        user.global_name ||
+        user.username;
 
-      document.getElementById("handle").textContent =
-        `@${user.username}`;
+      document
+        .getElementById("handle")
+        .textContent =
+          `@${user.username}`;
 
-      const statusEl = document.getElementById("status");
+      const statusEl =
+        document.getElementById("status");
 
-      statusEl.className = "status-dot " + status;
+      statusEl.className =
+        "status-dot " + status;
 
-      const badgesEl = document.getElementById("badges");
+      const badgesEl =
+        document.getElementById("badges");
 
       badgesEl.innerHTML = "";
 
-      getBadges(user.public_flags || 0).forEach(b => {
-        const img = document.createElement("img");
+      getBadges(
+        user.public_flags || 0
+      ).forEach((b, index) => {
 
-        img.src = BADGE_CDN + b.file;
-        img.alt = b.name;
-        img.title = b.name;
-        img.className = "badge";
+        const img =
+          document.createElement("img");
+
+        img.src =
+          BADGE_CDN + b.file;
+
+        img.alt =
+          b.name;
+
+        img.title =
+          b.name;
+
+        img.className =
+          "badge";
+
+        img.style.animationDelay =
+          `${index * 70}ms`;
 
         badgesEl.appendChild(img);
       });
 
-      document.getElementById("username").textContent = displayName;
+      document
+        .getElementById("username")
+        .textContent =
+          displayName;
 
       if (!hasIntroed) {
+
         hasIntroed = true;
 
-        const bioEl = document.getElementById("bio");
+        typeText(
+          document.getElementById("bio"),
+          BIO_TEXT,
+          20
+        );
 
-        typeText(bioEl, BIO_TEXT, 20);
+        document.title =
+          `${displayName} • Bio`;
 
-        document.title = `${displayName} • Bio`;
       } else {
-        document.getElementById("bio").textContent = BIO_TEXT;
-      }
 
-      document.getElementById("footer").textContent = "";
+        document
+          .getElementById("bio")
+          .textContent =
+            BIO_TEXT;
+      }
     }
 
     function showError() {
-      document.getElementById("username").textContent = "Unavailable";
-      document.getElementById("handle").textContent = "";
-      document.getElementById("badges").innerHTML = "";
-      document.getElementById("footer").textContent = "";
+
+      document
+        .getElementById("username")
+        .textContent =
+          "Unavailable";
+
+      document
+        .getElementById("handle")
+        .textContent = "";
+
+      document
+        .getElementById("badges")
+        .innerHTML = "";
     }
 
-    async function fetchPresence() {
-      try {
-        const res = await fetch(
-          `https://api.lanyard.rest/v1/users/${DISCORD_ID}`
-        );
+    /* =========================
+       LANYARD
+    ========================= */
 
-        const json = await res.json();
+    async function fetchPresence() {
+
+      try {
+
+        const res =
+          await fetch(
+            `https://api.lanyard.rest/v1/users/${DISCORD_ID}`
+          );
+
+        const json =
+          await res.json();
 
         if (!json.success) {
+
           showError();
+
           return;
         }
 
         render(json.data);
+
       } catch {
+
         showError();
       }
     }
 
+    /* =========================
+       FRIENDS
+    ========================= */
+
     async function fetchFriendProfile(id) {
+
       try {
-        const res = await fetch(
-          FRIEND_PROFILE_API + encodeURIComponent(id)
-        );
+
+        const res =
+          await fetch(
+            FRIEND_PROFILE_API +
+            encodeURIComponent(id)
+          );
 
         if (!res.ok) {
+
           return {
             id,
             data: null
           };
         }
 
-        const json = await res.json();
+        const json =
+          await res.json();
 
         return {
           id,
           data: json.user || json
         };
+
       } catch {
+
         return {
           id,
           data: null
@@ -959,7 +1935,11 @@
     }
 
     function renderFriendBadges(user) {
-      const flags = user.public_flags || user.flags || 0;
+
+      const flags =
+        user.public_flags ||
+        user.flags ||
+        0;
 
       return getBadges(flags)
         .slice(0, 4)
@@ -975,82 +1955,129 @@
     }
 
     function renderFriendsList(entries) {
-      const listEl = document.getElementById("friends-list");
+
+      const listEl =
+        document.getElementById(
+          "friends-list"
+        );
 
       listEl.innerHTML = "";
 
-      entries.forEach(({ id, data }) => {
-        const item = document.createElement("div");
+      entries.forEach(
+        ({ id, data }, index) => {
 
-        item.className = "friend-item";
-        item.style.background = currentTheme.darker;
+          const item =
+            document.createElement("div");
 
-        if (!data) {
+          item.className =
+            "friend-item";
+
+          item.style.animation =
+            `badgeAppear .45s ${index * 80}ms both`;
+
+          if (!data) {
+
+            item.innerHTML = `
+              <div class="friend-avatar-wrap">
+                <div
+                  class="friend-avatar"
+                  style="
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    color:#6d6f78;
+                    font-size:.7rem;
+                  "
+                >?</div>
+              </div>
+
+              <div class="friend-info">
+                <div class="friend-name">
+                  Unavailable
+                </div>
+
+                <div class="friend-username">
+                  ${id}
+                </div>
+              </div>
+            `;
+
+            listEl.appendChild(item);
+
+            return;
+          }
+
+          const displayName =
+            data.global_name ||
+            data.username ||
+            "Unknown";
+
+          const username =
+            data.username ||
+            displayName;
+
+          const url =
+            avatarUrl(data);
+
+          const profileTheme =
+            themeFromProfile(data);
+
           item.innerHTML = `
             <div class="friend-avatar-wrap">
-              <div
+
+              <img
                 class="friend-avatar"
-                style="display:flex;align-items:center;justify-content:center;color:#6d6f78;font-size:.7rem;"
-              >?</div>
+                src="${url}"
+                alt="${escapeHtml(displayName)}"
+              >
+
             </div>
+
             <div class="friend-info">
-              <div class="friend-name">Unavailable</div>
-              <div class="friend-username">${id}</div>
+
+              <div class="friend-name">
+                ${escapeHtml(displayName)}
+              </div>
+
+              <div class="friend-username">
+                @${escapeHtml(username)}
+              </div>
+
+            </div>
+
+            <div class="friend-badges">
+              ${renderFriendBadges(data)}
             </div>
           `;
 
+          const friendAvatar =
+            item.querySelector(
+              ".friend-avatar"
+            );
+
+          friendAvatar.style.background =
+            currentTheme.card;
+
+          if (profileTheme) {
+
+            const {
+              r,
+              g,
+              b
+            } = profileTheme;
+
+            friendAvatar.style.boxShadow =
+              `0 0 0 2px rgba(${r},${g},${b},.35),
+               0 0 14px rgba(${r},${g},${b},.18)`;
+          }
+
           listEl.appendChild(item);
-          return;
         }
-
-        const displayName =
-          data.global_name ||
-          data.username ||
-          "Unknown";
-
-        const username =
-          data.username ||
-          displayName;
-
-        const url = avatarUrl(data);
-
-        const profileTheme = themeFromProfile(data);
-
-        item.innerHTML = `
-          <div class="friend-avatar-wrap">
-            <img
-              class="friend-avatar"
-              src="${url}"
-              alt="${displayName}"
-            >
-          </div>
-
-          <div class="friend-info">
-            <div class="friend-name">${escapeHtml(displayName)}</div>
-            <div class="friend-username">@${escapeHtml(username)}</div>
-          </div>
-
-          <div class="friend-badges">
-            ${renderFriendBadges(data)}
-          </div>
-        `;
-
-        const friendAvatar = item.querySelector(".friend-avatar");
-
-        friendAvatar.style.background = currentTheme.card;
-
-        if (profileTheme) {
-          const { r, g, b } = profileTheme;
-
-          friendAvatar.style.boxShadow =
-            `0 0 0 2px rgba(${r}, ${g}, ${b}, .35)`;
-        }
-
-        listEl.appendChild(item);
-      });
+      );
     }
 
     function escapeHtml(value) {
+
       return String(value)
         .replaceAll("&", "&amp;")
         .replaceAll("<", "&lt;")
@@ -1060,68 +2087,246 @@
     }
 
     async function loadFriends() {
+
       if (friendsLoaded) return;
 
       friendsLoaded = true;
 
-      const results = await Promise.all(
-        FRIEND_IDS.map(fetchFriendProfile)
-      );
+      const results =
+        await Promise.all(
+          FRIEND_IDS.map(
+            fetchFriendProfile
+          )
+        );
 
       renderFriendsList(results);
     }
 
     function openFriendsModal() {
-      const overlay = document.getElementById("friends-overlay");
+
+      const overlay =
+        document.getElementById(
+          "friends-overlay"
+        );
 
       overlay.classList.add("open");
 
-      document.getElementById("friends-modal").style.background =
-        currentTheme.card;
+      document
+        .getElementById("friends-modal")
+        .style.background =
+          currentTheme.card;
 
       loadFriends();
     }
 
     function closeFriendsModal() {
+
       document
-        .getElementById("friends-overlay")
+        .getElementById(
+          "friends-overlay"
+        )
         .classList.remove("open");
     }
 
+    /* =========================
+       EVENTS
+    ========================= */
+
     document
       .getElementById("avatar-wrap")
-      .addEventListener("click", e => {
-        e.stopPropagation();
-        openFriendsModal();
-      });
+      .addEventListener(
+        "click",
+        e => {
+
+          e.stopPropagation();
+
+          openFriendsModal();
+        }
+      );
 
     document
       .getElementById("friends-close")
-      .addEventListener("click", closeFriendsModal);
+      .addEventListener(
+        "click",
+        closeFriendsModal
+      );
 
     document
       .getElementById("friends-overlay")
-      .addEventListener("click", e => {
-        if (e.target.id === "friends-overlay") {
+      .addEventListener(
+        "click",
+        e => {
+
+          if (
+            e.target.id ===
+            "friends-overlay"
+          ) {
+            closeFriendsModal();
+          }
+        }
+      );
+
+    document.addEventListener(
+      "keydown",
+      e => {
+
+        if (e.key === "Escape") {
           closeFriendsModal();
         }
-      });
-
-    document.addEventListener("keydown", e => {
-      if (e.key === "Escape") {
-        closeFriendsModal();
       }
-    });
+    );
+
+    /* =========================
+       3D CARD MOUSE EFFECT
+    ========================= */
+
+    const card =
+      document.getElementById("card");
+
+    let mouseX = 0;
+    let mouseY = 0;
+
+    document.addEventListener(
+      "mousemove",
+      e => {
+
+        const rect =
+          card.getBoundingClientRect();
+
+        const x =
+          e.clientX - rect.left;
+
+        const y =
+          e.clientY - rect.top;
+
+        mouseX =
+          (x / rect.width - .5);
+
+        mouseY =
+          (y / rect.height - .5);
+
+        if (window.innerWidth <= 600) {
+          return;
+        }
+
+        card.style.animation =
+          "none";
+
+        card.style.transform =
+          `
+            perspective(900px)
+            rotateX(${mouseY * -5}deg)
+            rotateY(${mouseX * 5}deg)
+            translateY(-3px)
+          `;
+      }
+    );
+
+    document.addEventListener(
+      "mouseleave",
+      () => {
+
+        card.style.transform =
+          "";
+
+        card.style.animation =
+          "";
+      }
+    );
+
+    /* =========================
+       CLICK RIPPLE
+    ========================= */
+
+    document.addEventListener(
+      "click",
+      e => {
+
+        const target =
+          e.target.closest(
+            ".link-icon, .audio-toggle, .friends-close"
+          );
+
+        if (!target) return;
+
+        const ripple =
+          document.createElement("span");
+
+        ripple.style.position =
+          "absolute";
+
+        ripple.style.width =
+          "10px";
+
+        ripple.style.height =
+          "10px";
+
+        ripple.style.borderRadius =
+          "50%";
+
+        ripple.style.background =
+          "rgba(255,255,255,.45)";
+
+        ripple.style.left =
+          "50%";
+
+        ripple.style.top =
+          "50%";
+
+        ripple.style.transform =
+          "translate(-50%,-50%)";
+
+        ripple.style.pointerEvents =
+          "none";
+
+        ripple.style.animation =
+          "ripple .6s ease-out forwards";
+
+        target.appendChild(ripple);
+
+        setTimeout(
+          () => ripple.remove(),
+          700
+        );
+      }
+    );
+
+    const rippleStyle =
+      document.createElement("style");
+
+    rippleStyle.textContent = `
+      @keyframes ripple {
+        from {
+          opacity: .8;
+          transform: translate(-50%,-50%) scale(1);
+        }
+
+        to {
+          opacity: 0;
+          transform: translate(-50%,-50%) scale(8);
+        }
+      }
+    `;
+
+    document.head.appendChild(
+      rippleStyle
+    );
+
+    /* =========================
+       START
+    ========================= */
 
     createSnow();
     loadViews();
     initAudio();
     fetchPresence();
 
-    setInterval(fetchPresence, 30000);
+    setInterval(
+      fetchPresence,
+      30000
+    );
+
   </script>
+
 </body>
 </html>
-
-
-Make the text on my profile look a bit glowy and add some cool animations that match this HTML.
