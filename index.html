@@ -1412,6 +1412,8 @@
 
 .extra-cursor-ring {
   position: fixed;
+  left: 0;   /* FIX: anchor to top-left so JS translate matches the mouse */
+  top: 0;    /* FIX: anchor to top-left so JS translate matches the mouse */
   width: 34px;
   height: 34px;
   margin: -17px 0 0 -17px;
