@@ -1112,10 +1112,365 @@
         scroll-behavior: auto !important;
       }
     }
-  </style>
+  
+    /* =========================
+       EXTRA VISUAL EFFECTS
+       Added without replacing existing styles
+    ========================= */
+
+    /* Animated aurora glow layers */
+    body::marker { content: none; }
+
+    .extra-aurora {
+      position: fixed;
+      inset: -25%;
+      z-index: 0;
+      pointer-events: none;
+      opacity: .55;
+      filter: blur(70px) saturate(125%);
+      background:
+        radial-gradient(ellipse at 20% 25%, rgba(var(--accent), .14), transparent 28%),
+        radial-gradient(ellipse at 80% 20%, rgba(120, 90, 255, .10), transparent 26%),
+        radial-gradient(ellipse at 65% 80%, rgba(0, 210, 255, .07), transparent 25%),
+        radial-gradient(ellipse at 25% 75%, rgba(255, 70, 180, .06), transparent 24%);
+      animation: extraAurora 18s ease-in-out infinite alternate;
+      mix-blend-mode: screen;
+    }
+
+    @keyframes extraAurora {
+      0% {
+        transform: translate3d(-3%, -2%, 0) rotate(0deg) scale(1);
+      }
+      50% {
+        transform: translate3d(3%, 2%, 0) rotate(5deg) scale(1.08);
+      }
+      100% {
+        transform: translate3d(-2%, 4%, 0) rotate(-4deg) scale(1.03);
+      }
+    }
+
+    /* Subtle futuristic grid */
+    .extra-grid {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: .13;
+      background-image:
+        linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px);
+      background-size: 52px 52px;
+      -webkit-mask-image: radial-gradient(circle at center, black 0%, transparent 78%);
+      mask-image: radial-gradient(circle at center, black 0%, transparent 78%);
+      animation: extraGridMove 22s linear infinite;
+    }
+
+    @keyframes extraGridMove {
+      from { transform: translate3d(0, 0, 0); }
+      to { transform: translate3d(52px, 52px, 0); }
+    }
+
+    /* Tiny distant stars */
+    .extra-stars {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .extra-star {
+      position: absolute;
+      width: var(--size);
+      height: var(--size);
+      left: var(--x);
+      top: var(--y);
+      border-radius: 50%;
+      background: rgba(255,255,255,.9);
+      box-shadow: 0 0 8px rgba(var(--accent), .65);
+      opacity: var(--opacity);
+      animation:
+        extraTwinkle var(--duration) ease-in-out var(--delay) infinite,
+        extraDrift var(--drift) ease-in-out var(--delay) infinite alternate;
+    }
+
+    @keyframes extraTwinkle {
+      0%, 100% { opacity: .15; transform: scale(.65); }
+      50% { opacity: var(--peak); transform: scale(1.35); }
+    }
+
+    @keyframes extraDrift {
+      from { translate: 0 0; }
+      to { translate: var(--dx) var(--dy); }
+    }
+
+    /* Scanline / cinematic sheen */
+    .extra-scanlines {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: .055;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0,
+        transparent 3px,
+        rgba(255,255,255,.08) 4px,
+        transparent 5px
+      );
+      animation: extraScan 9s linear infinite;
+    }
+
+    @keyframes extraScan {
+      from { background-position: 0 0; }
+      to { background-position: 0 120px; }
+    }
+
+    /* Cursor-following ambient glow */
+    .extra-cursor-glow {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 360px;
+      height: 360px;
+      z-index: 0;
+      pointer-events: none;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle,
+        rgba(var(--accent), .10) 0%,
+        rgba(var(--accent), .035) 28%,
+        transparent 68%
+      );
+      transform: translate3d(-50%, -50%, 0);
+      will-change: transform;
+      mix-blend-mode: screen;
+    }
+
+    /* Keep new effects behind the existing card/content */
+    .extra-aurora,
+    .extra-grid,
+    .extra-stars,
+    .extra-scanlines,
+    .extra-cursor-glow {
+      contain: paint;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .extra-aurora,
+      .extra-grid,
+      .extra-star,
+      .extra-scanlines {
+        animation: none !important;
+      }
+
+      .extra-cursor-glow {
+        display: none;
+      }
+    }
+
+  
+/* =========================================================
+   EXTRA "VOID MODE" EFFECTS — ADDITIVE ONLY
+   ========================================================= */
+
+.extra-vignette {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(circle at center, transparent 35%, rgba(0,0,0,.22) 72%, rgba(0,0,0,.68) 100%);
+  mix-blend-mode: multiply;
+}
+
+.extra-orbit {
+  position: fixed;
+  width: 42vw;
+  height: 42vw;
+  min-width: 280px;
+  min-height: 280px;
+  max-width: 700px;
+  max-height: 700px;
+  border: 1px solid rgba(255,255,255,.055);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: .45;
+  transform: rotate(-18deg);
+  box-shadow:
+    0 0 60px rgba(var(--accent), .035),
+    inset 0 0 60px rgba(var(--accent), .025);
+  animation: extraOrbitSpin 22s linear infinite;
+}
+
+.extra-orbit::before,
+.extra-orbit::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,.9);
+  box-shadow:
+    0 0 8px rgba(255,255,255,.9),
+    0 0 22px rgba(var(--accent), .65);
+}
+
+.extra-orbit::before {
+  width: 5px;
+  height: 5px;
+  top: 8%;
+  left: 17%;
+}
+
+.extra-orbit::after {
+  width: 3px;
+  height: 3px;
+  right: 11%;
+  bottom: 21%;
+  opacity: .7;
+}
+
+@keyframes extraOrbitSpin {
+  to { transform: rotate(342deg); }
+}
+
+.extra-energy {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: .42;
+  background:
+    conic-gradient(
+      from 0deg at 50% 50%,
+      transparent 0deg,
+      rgba(var(--accent), .055) 35deg,
+      transparent 72deg,
+      transparent 145deg,
+      rgba(255,255,255,.035) 190deg,
+      transparent 230deg,
+      transparent 310deg,
+      rgba(var(--accent), .045) 345deg,
+      transparent 360deg
+    );
+  filter: blur(18px);
+  animation: extraEnergySpin 18s linear infinite;
+}
+
+@keyframes extraEnergySpin {
+  to { transform: rotate(360deg) scale(1.08); }
+}
+
+.extra-pulse {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  margin: -8px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  border: 1px solid rgba(var(--accent), .18);
+  box-shadow:
+    0 0 30px rgba(var(--accent), .08),
+    0 0 90px rgba(var(--accent), .035);
+  animation: extraPulse 5s ease-out infinite;
+}
+
+@keyframes extraPulse {
+  0% {
+    opacity: 0;
+    transform: scale(.2);
+  }
+  15% { opacity: .5; }
+  100% {
+    opacity: 0;
+    transform: scale(22);
+  }
+}
+
+.extra-noise {
+  position: fixed;
+  inset: -50%;
+  pointer-events: none;
+  z-index: 20;
+  opacity: .025;
+  background-image:
+    repeating-radial-gradient(circle at 0 0, #fff 0 1px, transparent 1px 3px);
+  background-size: 5px 5px;
+  animation: extraNoise 1.8s steps(2) infinite;
+}
+
+@keyframes extraNoise {
+  0% { transform: translate(0,0); }
+  25% { transform: translate(2%, -1%); }
+  50% { transform: translate(-1%, 2%); }
+  75% { transform: translate(1%, 1%); }
+  100% { transform: translate(-2%, -1%); }
+}
+
+.extra-cursor-ring {
+  position: fixed;
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  border: 1px solid rgba(255,255,255,.25);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0;
+  mix-blend-mode: difference;
+  transition: width .2s ease, height .2s ease, opacity .25s ease;
+}
+
+.extra-cursor-ring.active {
+  opacity: .75;
+}
+
+.extra-cursor-ring::after {
+  content: "";
+  position: absolute;
+  inset: 9px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 12px rgba(255,255,255,.8);
+}
+
+.card:hover ~ .extra-cursor-ring {
+  width: 44px;
+  height: 44px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .extra-orbit,
+  .extra-energy,
+  .extra-pulse,
+  .extra-noise {
+    animation: none !important;
+  }
+}
+
+</style>
 </head>
 
 <body>
+<!-- Extra visual layer: additive only -->
+<div class="extra-vignette" aria-hidden="true"></div>
+<div class="extra-orbit" aria-hidden="true"></div>
+<div class="extra-energy" aria-hidden="true"></div>
+<div class="extra-pulse" aria-hidden="true"></div>
+<div class="extra-noise" aria-hidden="true"></div>
+<div class="extra-cursor-ring" id="extra-cursor-ring" aria-hidden="true"></div>
+
+
+  <!-- EXTRA VISUAL LAYERS: additive only -->
+  <div class="extra-aurora" aria-hidden="true"></div>
+  <div class="extra-grid" aria-hidden="true"></div>
+  <div class="extra-stars" id="extra-stars" aria-hidden="true"></div>
+  <div class="extra-scanlines" aria-hidden="true"></div>
+  <div class="extra-cursor-glow" id="extra-cursor-glow" aria-hidden="true"></div>
+
 
   <div id="snow"></div>
 
@@ -2324,7 +2679,107 @@
       30000
     );
 
-  </script>
+  
+    /* =========================
+       EXTRA VISUAL EFFECTS JS
+       Additive only
+    ========================= */
+
+    function createExtraStars() {
+      const layer = document.getElementById("extra-stars");
+      if (!layer) return;
+
+      const fragment = document.createDocumentFragment();
+
+      for (let i = 0; i < 75; i++) {
+        const star = document.createElement("span");
+        star.className = "extra-star";
+
+        const size = (Math.random() * 2.4 + .6).toFixed(2);
+        const x = (Math.random() * 100).toFixed(2);
+        const y = (Math.random() * 100).toFixed(2);
+        const opacity = (Math.random() * .45 + .15).toFixed(2);
+        const peak = Math.min(1, Number(opacity) + .35).toFixed(2);
+        const duration = (Math.random() * 3 + 2).toFixed(2);
+        const delay = (Math.random() * -6).toFixed(2);
+        const drift = (Math.random() * 8 + 5).toFixed(2);
+        const dx = ((Math.random() - .5) * 24).toFixed(1) + "px";
+        const dy = ((Math.random() - .5) * 24).toFixed(1) + "px";
+
+        star.style.setProperty("--size", `${size}px`);
+        star.style.setProperty("--x", `${x}%`);
+        star.style.setProperty("--y", `${y}%`);
+        star.style.setProperty("--opacity", opacity);
+        star.style.setProperty("--peak", peak);
+        star.style.setProperty("--duration", `${duration}s`);
+        star.style.setProperty("--delay", `${delay}s`);
+        star.style.setProperty("--drift", `${drift}s`);
+        star.style.setProperty("--dx", dx);
+        star.style.setProperty("--dy", dy);
+
+        fragment.appendChild(star);
+      }
+
+      layer.appendChild(fragment);
+    }
+
+    function initExtraCursorGlow() {
+      const glow = document.getElementById("extra-cursor-glow");
+      if (!glow || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+      let targetX = innerWidth / 2;
+      let targetY = innerHeight / 2;
+      let currentX = targetX;
+      let currentY = targetY;
+
+      window.addEventListener("pointermove", e => {
+        targetX = e.clientX;
+        targetY = e.clientY;
+      }, { passive: true });
+
+      function animateGlow() {
+        currentX += (targetX - currentX) * .075;
+        currentY += (targetY - currentY) * .075;
+
+        glow.style.transform =
+          `translate3d(${currentX}px, ${currentY}px, 0) translate(-50%, -50%)`;
+
+        requestAnimationFrame(animateGlow);
+      }
+
+      animateGlow();
+    }
+
+    createExtraStars();
+    initExtraCursorGlow();
+
+  
+// Extra cursor ring — additive only.
+(function initExtraCursorRing() {
+  const ring = document.getElementById('extra-cursor-ring');
+  if (!ring || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  let x = -100, y = -100, tx = x, ty = y;
+
+  window.addEventListener('pointermove', (e) => {
+    tx = e.clientX;
+    ty = e.clientY;
+    ring.classList.add('active');
+  }, { passive: true });
+
+  window.addEventListener('pointerleave', () => ring.classList.remove('active'));
+
+  function animateRing() {
+    x += (tx - x) * 0.18;
+    y += (ty - y) * 0.18;
+    ring.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+    requestAnimationFrame(animateRing);
+  }
+
+  animateRing();
+})();
+
+</script>
 
 </body>
 </html>
