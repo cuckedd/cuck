@@ -1,0 +1,8 @@
+Put the audio files you have permission to use here.
+
+Example:
+  songs/first-song.mp3
+  songs/second-song.ogg
+
+Edit ../playlist.js to add the files to the permanent playlist.
+This folder contains no copyrighted songs or demo audio.
