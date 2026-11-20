@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#020202">
+  <meta name="description" content="Reject's World — a little corner of the internet.">
+  <title>REJECT'S WORLD</title>
+  <style>
+    :root { color-scheme: dark; --base:#020202; --text:#b8b8b8; --line:#242424; --accent:#96333e; }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { min-height:100%; background:var(--base); }
+    body { margin:0; min-height:100%; background:var(--base); color:var(--text); font-family:Georgia,"Times New Roman",serif; overflow-x:hidden; }
+    button,input { font:inherit; }
+    a { -webkit-tap-highlight-color:transparent; }
+    .stars { position:fixed; inset:0; z-index:0; pointer-events:none; background-image:radial-gradient(1px 1px at 17% 13%,#999 99%,transparent),radial-gradient(1px 1px at 48% 7%,#aaa 99%,transparent),radial-gradient(1px 1px at 69% 37%,#777 99%,transparent),radial-gradient(1px 1px at 92% 66%,#777 99%,transparent),radial-gradient(1px 1px at 33% 75%,#777 99%,transparent);background-size:280px 210px;opacity:.38;animation:drift 35s linear infinite; }
+    @keyframes drift { to { transform:translateY(-210px); } }
+
+    /* Boot screen — full viewport, centered like the supplied reference. */
+    .boot-screen { position:fixed; inset:0; z-index:1000; background:#000; display:grid; place-items:center; opacity:1; visibility:visible; transition:opacity .65s ease,visibility .65s ease; }
+    .boot-screen.finished { opacity:0; visibility:hidden; pointer-events:none; }
+    .boot-inner { width:min(230px,75vw); margin-top:-2vh; transform:translateY(0); font-family:"Courier New",monospace; }
+    .boot-title { text-align:center; color:#a6a6a6; font-family:Georgia,"Times New Roman",serif; font-size:clamp(11px,1vw,15px); letter-spacing:.36em; font-weight:700; white-space:nowrap; margin:0 0 17px; }
+    .boot-output { color:#777; font-size:clamp(7px,.7vw,10px); line-height:1.8; min-height:100px; white-space:pre-wrap; }
+    .boot-line { opacity:0; animation:boot-reveal .12s ease forwards; }
+    @keyframes boot-reveal { to { opacity:1; } }
+    .boot-skip { display:block; margin:17px auto 0; padding:5px 10px; color:#555; background:transparent; border:1px solid #191919; font:9px monospace; letter-spacing:.08em; cursor:pointer; }
+    .boot-skip:hover,.boot-skip:focus-visible { color:#bbb; border-color:#555; }
+    body.booting .stage, body.booting .stars, body.booting .music { visibility:hidden; }
+
+    /* The whole design is based on the viewport, NOT a fixed 1500px canvas. */
+    .stage { width:100%; height:100vh; height:100dvh; min-height:0; position:relative; isolation:isolate; overflow:hidden; }
+    .site-header { position:absolute; top:clamp(18px,3.3vh,35px); left:0; width:100%; text-align:center; z-index:5; pointer-events:none; }
+    .brand { color:#c5c5c5; font-size:clamp(9px,.77vw,13px); font-weight:700; letter-spacing:clamp(3px,.4vw,7px); text-transform:uppercase; text-decoration:none; pointer-events:auto; white-space:nowrap; }
+    .theme { position:absolute; right:clamp(12px,2vw,34px); top:0; padding:6px 11px; background:transparent; border:1px solid #292929; color:#7f7f7f; font:clamp(8px,.65vw,11px) monospace; letter-spacing:.08em; cursor:pointer; pointer-events:auto; }
+    .theme:hover { border-color:#777; color:#ddd; }
+
+    /* Profile circles, each linked to a real Discord user ID. */
+    .friends { position:absolute; z-index:6; left:clamp(12px,2.4vw,46px); top:clamp(65px,10vh,120px); display:flex; flex-direction:column; align-items:center; gap:clamp(12px,2.3vh,24px); max-height:76vh; overflow:auto; scrollbar-width:thin; scrollbar-color:#333 transparent; padding:4px 12px 8px 4px; }
+    .friend { display:flex; align-items:center; flex-direction:column; gap:7px; text-decoration:none; color:#acacac; font-size:clamp(9px,.75vw,12px); letter-spacing:.04em; width:clamp(65px,6.3vw,96px); text-align:center; transition:color .2s; }
+    .friend[aria-disabled="true"] { cursor:default; }
+    .friend:hover { color:#f5f5f5; }
+    .friend:hover .friend-avatar { filter:grayscale(.05); transform:translateY(-2px); border-color:#757575; }
+    .friend-avatar { display:grid; place-items:center; flex:none; width:clamp(53px,4.7vw,74px); height:clamp(53px,4.7vw,74px); border:1px solid #343434; border-radius:50%; overflow:hidden; background:radial-gradient(circle at 35% 25%,#595959,#191919 52%,#080808); box-shadow:0 0 14px #ffffff0a; filter:grayscale(.40); transition:filter .2s,transform .2s,border-color .2s; }
+    .friend-avatar img { display:block; width:100%; height:100%; object-fit:cover; }
+    .friend-avatar .placeholder { color:#d2d2d2; font:700 clamp(17px,2vw,29px) Georgia,serif; text-transform:uppercase; }
+    .friend-name { display:block; max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .friend:focus-visible, .theme:focus-visible, .music button:focus-visible, .music label:focus-visible { outline:1px solid #ddd; outline-offset:3px; }
+
+    /* Terminal placement scales with available width and viewport height. */
+    .terminal { position:absolute; z-index:3; top:clamp(125px,29vh,440px); left:30.5%; width:clamp(310px,32vw,610px); max-height:61vh; overflow:auto; background:#050505ef; border:1px solid #242424; box-shadow:0 0 0 1px #0b0b0b,0 12px 60px #0008; color:#919191; font:clamp(9px,.72vw,12px)/1.46 "Courier New",monospace; }
+    .terminal-bar { min-height:clamp(21px,2.3vh,30px); background:#151515; border-bottom:1px solid #242424; display:flex; align-items:center; justify-content:space-between; gap:8px; padding:0 9px; font-size:clamp(8px,.65vw,11px); color:#606060; }
+    .dots { display:flex; gap:4px; }
+    .dots i { display:block; width:5px; height:5px; border-radius:50%; background:#555; }
+    .terminal-content { padding:clamp(8px,1vw,16px); white-space:pre-wrap; overflow-wrap:anywhere; }
+    .terminal-content p { margin:0; }
+    .terminal-content .red { color:var(--accent); }
+    .terminal-content .bright { color:#bbb; }
+    .terminal-content .faint { color:#666; }
+    .cursor { animation:blink 1s steps(1) infinite; }
+    @keyframes blink { 50% { opacity:0; } }
+
+    .character { position:absolute; right:clamp(-22px,1.2vw,35px); bottom:0; z-index:2; width:clamp(310px,41vw,800px); height:auto; max-height:80dvh; object-fit:contain; object-position:right bottom; pointer-events:none; user-select:none; filter:brightness(.96); }
+    .status { position:absolute; bottom:clamp(18px,4vh,40px); left:clamp(20px,4.3vw,90px); z-index:3; font:clamp(7px,.55vw,11px) "Courier New",monospace; color:#3c3c3c; letter-spacing:.14em; }
+
+    /* Player stays inside the viewport including at fullscreen resolutions. */
+    .music { position:fixed; right:clamp(10px,1.7vw,30px); bottom:clamp(10px,2.5vh,32px); z-index:10; width:clamp(155px,16vw,250px); padding:10px; background:#080808ed; border:1px solid #292929; backdrop-filter:blur(8px); font:clamp(9px,.7vw,12px) "Courier New",monospace; box-shadow:0 8px 32px #000a; }
+    .track { display:flex; gap:8px; align-items:center; border-bottom:1px solid #292929; padding-bottom:7px; }
+    .cover { width:28px; height:28px; background:linear-gradient(135deg,#777,#313131 45%,#000); flex:none; }
+    .track-meta { min-width:0; flex:1; }
+    .track-name { color:#c9c9c9; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .sub { color:#777; font-size:.8em; margin-top:3px; }
+    .controls { display:flex; justify-content:space-between; align-items:center; margin-top:8px; gap:5px; }
+    .controls button,.controls label { background:transparent; border:0; padding:3px; color:#b9b9b9; cursor:pointer; font:14px monospace; }
+    .controls button:hover,.controls label:hover { color:white; }
+    .clock { font:10px monospace; color:#929292; }
+    .seek { display:block; width:100%; height:3px; accent-color:#a5a5a5; margin:7px 0 0; cursor:pointer; }
+    .soft { --base:#0a0810; --accent:#b77898; }
+    .soft .terminal { border-color:#523647; }
+    .soft .brand { color:#e0bccc; }
+
+    /* Narrow desktop / tablets */
+    @media (max-width:1000px) and (min-width:681px) {
+      .terminal { left:27%; width:40%; }
+      .character { right:-3%; width:45vw; height:auto; max-height:72vh; }
+      .friends { left:12px; }
+    }
+    /* Mobile uses a natural scroll layout instead of clipping the site. */
+    @media (max-width:680px) {
+      .stage { height:auto; min-height:max(800px,100dvh); overflow:hidden; padding-bottom:400px; }
+      .site-header { top:20px; }
+      .brand { font-size:10px; letter-spacing:2px; }
+      .theme { top:44px; right:12px; font-size:8px; }
+      .friends { top:83px; left:7px; right:7px; display:flex; flex-direction:row; align-items:flex-start; justify-content:center; gap:16px; max-height:none; overflow-x:auto; padding:3px 0 9px; }
+      .friend { width:72px; min-width:55px; font-size:9px; }
+      .friend-avatar { width:46px; height:46px; }
+      .terminal { left:5%; top:220px; width:90%; min-width:0; max-height:340px; font-size:10px; }
+      .character { bottom:85px; right:-25px; width:min(90vw,490px); height:auto; max-height:48vh; }
+      .status { left:14px; bottom:18px; font-size:7px; }
+      .music { right:10px; bottom:10px; width:180px; }
+    }
+    @media (max-width:380px) {
+      .terminal { top:205px; font-size:9px; }
+      .friends { gap:8px; }
+    }
+    @media (max-height:560px) and (min-width:681px) {
+      .terminal { top:27%; max-height:62%; }
+      .friends { top:16%; gap:9px; }
+      .friend-avatar { width:42px; height:42px; }
+      .character { width:min(42vw,590px); height:auto; max-height:75%; }
+    }
+    @media (min-width:1800px) {
+      .terminal { left:31%; top:29%; }
+      .character { width:min(40vw,870px); }
+    }
+    @media (max-width:900px) and (min-width:681px) {
+      .terminal { min-width:0; width:42vw; left:25%; }
+      .character { width:46vw; }
+    }
+    @media (prefers-reduced-motion:reduce) { .stars,.cursor { animation:none; } .friend-avatar { transition:none; } }
+  </style>
+</head>
+<body class="booting">
+  <div class="boot-screen" id="bootScreen" aria-label="Loading Reject's World" role="status">
+    <div class="boot-inner">
+      <h1 class="boot-title">REJECT'S WORLD</h1>
+      <div class="boot-output" id="bootOutput" aria-live="off"></div>
+      <button class="boot-skip" id="bootSkip" type="button">SKIP INTRO</button>
+    </div>
+  </div>
+  <div class="stars" aria-hidden="true"></div>
+  <div class="stage">
+    <header class="site-header">
+      <a class="brand" href="#home">✦ REJECT'S WORLD</a>
+      <button class="theme" id="theme" type="button">CHANGE MOOD</button>
+    </header>
+    <nav class="friends" id="friends" aria-label="Friends on Discord"></nav>
+    <main>
+      <section class="terminal" aria-label="Terminal window">
+        <div class="terminal-bar">
+          <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span>rejectsworld.re — 80x24</span>
+          <span aria-hidden="true">×</span>
+        </div>
+        <div class="terminal-content" id="terminalText"></div>
+      </section>
+      <img class="character" src="reject-character.gif" alt="Animated anime character" draggable="false">
+    </main>
+    <div class="status">REJECT'S WORLD · SYSTEM ONLINE</div>
+  </div>
+  <section class="music" aria-label="Music player">
+    <div class="track">
+      <div class="cover" aria-hidden="true"></div>
+      <div class="track-meta"><div class="track-name" id="track">no track selected</div><div class="sub" id="trackStatus">LOCAL AUDIO</div></div>
+    </div>
+    <div class="controls">
+      <label for="file" title="Add your own audio" tabindex="0" role="button" aria-label="Select audio file">＋</label>
+      <input id="file" type="file" accept="audio/*" hidden>
+      <button type="button" id="back" title="Restart audio">↶</button>
+      <button type="button" id="play" title="Play or pause audio">▶</button>
+      <span class="clock" id="clock">0:00</span>
+    </div>
+    <input class="seek" id="seek" type="range" min="0" max="100" value="0" aria-label="Seek through audio">
+    <audio id="audio"></audio>
+  </section>
+  <script src="friends.js"></script>
+  <script>
+    'use strict';
+    // Intro animation: quick boot log, then reveal the full homepage.
+    (() => {
+      const screen=document.getElementById('bootScreen');
+      const output=document.getElementById('bootOutput');
+      const skip=document.getElementById('bootSkip');
+      const lines=[
+        '• initializing kernel...   [OK]',
+        '• mounting filesystem...  [OK]',
+        '• loading audio modules... [OK]',
+        '• establishing secure channel...',
+        '  [OK]',
+        '• welcome.'
+      ];
+      const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let timers=[];
+      let done=false;
+      const finish=()=>{
+        if(done)return;
+        done=true;
+        timers.forEach(clearTimeout);
+        document.body.classList.remove('booting');
+        screen.classList.add('finished');
+        screen.setAttribute('aria-hidden','true');
+        window.setTimeout(()=>screen.remove(),reducedMotion?0:750);
+      };
+      skip.addEventListener('click',finish);
+      lines.forEach((line,i)=>{
+        timers.push(setTimeout(()=>{
+          const row=document.createElement('div');
+          row.className='boot-line';
+          row.textContent=line;
+          output.append(row);
+        },reducedMotion?i*35:350+i*350));
+      });
+      timers.push(setTimeout(finish,reducedMotion?500:2900));
+    })();
+
+    // The terminal remains on the home screen; profile circles now open Discord directly.
+    const terminal=document.getElementById('terminalText');
+    terminal.innerHTML=`<p class="faint">guest@rejectsworld:~$ nmap</p>
+<p class="red">Under my control</p>
+<p class="bright">rejectsworld.re's Nmap 7.95</p>
+<p>Starting Nmap 7.95 ( https://nmap.org )</p>
+<p>Nmap scan report for rejectsworld.re</p>
+<p>Host is up (0.045s latency).</p>
+<p>PORT     STATE  SERVICE   VERSION</p>
+<p>22/tcp   open   ssh       OpenSSH</p>
+<p>80/tcp   open   http      nginx</p>
+<p>443/tcp  open   https     nginx</p>
+<p>3306/tcp open   mysql     MySQL</p>
+<p>6379/tcp open   redis     Redis</p>
+<p class="faint">Nmap done: 1 IP address (1 host up) scanned</p>
+<br><p class="faint">guest@rejectsworld:~$ <span class="cursor">█</span></p>`;
+
+    const validId=id=>/^\d{17,22}$/.test(String(id||''));
+    const friendNav=document.getElementById('friends');
+    function makeAvatar(url,container) {
+      if(!url || !/^(https:\/\/|\.\.?\/|[a-zA-Z0-9_-]+\/)/.test(url)) return;
+      const img=document.createElement('img');
+      img.alt=''; img.loading='lazy'; img.referrerPolicy='no-referrer';
+      img.onerror=()=>img.remove();
+      img.onload=()=>{container.replaceChildren(img);};
+      img.src=url;
+    }
+    function buildAvatarUrl(user) {
+      if(!user?.id || !user?.avatar) return null;
+      const format=user.avatar.startsWith('a_')?'gif':'png';
+      return `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.${format}?size=128`;
+    }
+    async function getDiscordUser(id) {
+      // A configured Node server can resolve any normal Discord user ID.
+      try {
+        const response=await fetch(`/api/discord/${id}`, {signal:AbortSignal.timeout(3500)});
+        if(response.ok) return await response.json();
+      } catch (_) { /* static host or offline: try Lanyard */ }
+      // Static-host fallback: works only for Discord users connected to Lanyard.
+      try {
+        const response=await fetch(`https://api.lanyard.rest/v1/users/${id}`, {signal:AbortSignal.timeout(5000)});
+        if(!response.ok) return null;
+        const result=await response.json();
+        return result.success?result.data?.discord_user:null;
+      } catch (_) { return null; }
+    }
+    async function renderFriends() {
+      friendNav.replaceChildren();
+      const entries=Array.isArray(window.REJECT_FRIENDS)?window.REJECT_FRIENDS:[];
+      for(const [index,person] of entries.entries()) {
+        const id=String(person.id||'').trim();
+        const hasId=validId(id);
+        const link=document.createElement('a');
+        link.className='friend';
+        if(hasId) { link.href=`https://discord.com/users/${id}`; link.target='_blank'; link.rel='noopener noreferrer'; }
+        else { link.setAttribute('aria-disabled','true'); link.title='Add a Discord user ID in friends.js'; }
+        const circle=document.createElement('span'); circle.className='friend-avatar';
+        const initial=document.createElement('span'); initial.className='placeholder';
+        initial.textContent=(String(person.name||'friend').trim().charAt(0)||'F');
+        circle.append(initial);
+        const name=document.createElement('span'); name.className='friend-name';
+        name.textContent=String(person.name||'').trim()||`friend ${index+1}`;
+        link.append(circle,name); friendNav.append(link);
+        if(person.avatar) makeAvatar(String(person.avatar),circle);
+        if(hasId) {
+          getDiscordUser(id).then(user=>{
+            if(!user) return;
+            if(!person.avatar) makeAvatar(buildAvatarUrl(user),circle);
+            if(!person.name) name.textContent=user.global_name||user.username||name.textContent;
+            link.title=`View ${user.global_name||user.username||'friend'} on Discord`;
+          });
+        }
+      }
+    }
+    renderFriends();
+    document.getElementById('theme').addEventListener('click',()=>document.body.classList.toggle('soft'));
+    const audio=document.getElementById('audio'),file=document.getElementById('file'),play=document.getElementById('play'),seek=document.getElementById('seek');
+    let objectUrl=null;
+    file.addEventListener('change',()=>{
+      const selected=file.files?.[0]; if(!selected)return;
+      if(objectUrl)URL.revokeObjectURL(objectUrl);
+      objectUrl=URL.createObjectURL(selected); audio.src=objectUrl;
+      document.getElementById('track').textContent=selected.name;
+      audio.play().catch(()=>{document.getElementById('trackStatus').textContent='PRESS PLAY';});
+    });
+    play.addEventListener('click',()=>{
+      if(!audio.src){file.click();return;}
+      if(audio.paused) audio.play().catch(()=>{}); else audio.pause();
+    });
+    document.getElementById('back').addEventListener('click',()=>{audio.currentTime=0;});
+    audio.addEventListener('play',()=>{play.textContent='Ⅱ';document.getElementById('trackStatus').textContent='PLAYING';});
+    audio.addEventListener('pause',()=>{play.textContent='▶';document.getElementById('trackStatus').textContent='PAUSED';});
+    audio.addEventListener('ended',()=>{play.textContent='▶';});
+    audio.addEventListener('timeupdate',()=>{
+      seek.value=audio.duration?audio.currentTime/audio.duration*100:0;
+      document.getElementById('clock').textContent=Math.floor(audio.currentTime/60)+':'+String(Math.floor(audio.currentTime%60)).padStart(2,'0');
+    });
+    seek.addEventListener('input',()=>{if(audio.duration)audio.currentTime=audio.duration*Number(seek.value)/100;});
+    document.querySelector('label[for="file"]').addEventListener('keydown',event=>{
+      if(event.key==='Enter'||event.key===' '){event.preventDefault();file.click();}
+    });
+  </script>
+</body>
+</html>
