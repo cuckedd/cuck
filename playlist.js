@@ -15,17 +15,22 @@
  * Optional: cover: "covers/first-song.jpg"
  */
 
+
 window.REJECT_PLAYLIST = [
   {
     title: "Attracted To You",
     artist: "PinkPantheress",
-    src: "songs/attractedtoyou.mp3"
-  }
-  
-window.REJECT_PLAYLIST = [
+    src: "songs/attracted to you.mp3"
+  },
   {
-      title: "GT x TimmyT - Overleven",
+    title: "GT x TimmyT - Overleven",
     artist: "GT",
     src: "songs/Overleven.mp3"
+  },
+  {
+    title: "Derde Liedje",
+    artist: "Artiest 3",
+    src: "songs/song3.mp3"
   }
 ];
+
