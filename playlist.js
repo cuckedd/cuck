@@ -15,5 +15,5 @@
  * Optional: cover: "covers/first-song.jpg"
  */
 window.REJECT_PLAYLIST = [
-  // { title: "My Song", artist: "My Artist", src: "songs/my-song.mp3" },
+  // { title: "My Song", artist: "Pinkpantheress", src: "songs/attracted to you.mp3" },
 ];
