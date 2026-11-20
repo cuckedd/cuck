@@ -15,7 +15,7 @@
  * Automatic lookup uses the optional server or Lanyard fallback.
  */
 window.REJECT_FRIENDS = [
-  { id: "", name: "", avatar: "" },
+  { id: "463360937949134852", Sudo: "", avatar: "https://i.pinimg.com/736x/8e/90/f8/8e90f8381bea616656ae94d36534375d.jpg" },
   { id: "", name: "", avatar: "" },
   { id: "", name: "", avatar: "" }
 ];
