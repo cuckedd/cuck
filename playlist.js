@@ -16,11 +16,12 @@
  */
 
 
+
 window.REJECT_PLAYLIST = [
   {
     title: "Attracted To You",
     artist: "PinkPantheress",
-    src: "songs/attracted to you.mp3"
+    src: "songs/attractedtoyou.mp3"
   },
   {
     title: "GT x TimmyT - Overleven",
@@ -33,4 +34,5 @@ window.REJECT_PLAYLIST = [
     src: "songs/justyourdoll.mp3"
   }
 ];
+
 
