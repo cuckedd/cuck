@@ -240,7 +240,16 @@ body:not(.booting) .music{animation:riseIn .7s .4s both}
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
 }
 
-  </style>
+  
+/* Network command shortcuts: refined white text and restrained pink hover. */
+.terminal-tools{display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:7px 14px;border-top:1px solid #ffffff0a;background:#0b090bf0}
+.terminal-tool{border:1px solid #ffffff22;border-radius:3px;background:#ffffff05;color:#c7c1c4;padding:4px 8px;font:9px 'Courier New',Consolas,monospace;letter-spacing:.05em;transition:color .2s,border-color .2s,box-shadow .2s}
+.terminal-tool:hover,.terminal-tool:focus-visible{color:var(--hover-pink);border-color:#8b4756;box-shadow:0 0 7px #a93b511b}
+.terminal-network-note{margin-left:auto;color:#726b70;font:8px 'Courier New',Consolas,monospace;letter-spacing:.04em}
+.terminal-line.terminal-net-good{color:#d7d0d2}
+.terminal-line.terminal-net-info{color:#a59da1}
+@media(max-width:700px){.terminal-tools{gap:5px;padding:5px 9px}.terminal-network-note{display:none}.terminal-tool{font-size:8px;padding:3px 6px}}
+</style>
 </head>
 <body class="booting">
   <div class="boot-screen" id="bootScreen" aria-label="Loading Reject's World" role="status">
@@ -260,42 +269,33 @@ body:not(.booting) .music{animation:riseIn .7s .4s both}
     </header>
     <nav class="friends" id="friends" aria-label="Friends on Discord"></nav>
     <main>
-      <section class="terminal" id="terminal" aria-label="Reject's World interactive demo terminal">
+      <section class="terminal" id="terminal" aria-label="Reject's World terminal with network tools">
         <div class="terminal-bar">
           <span class="terminal-dots" aria-hidden="true"><span></span><span></span><span></span></span>
           <span class="terminal-bar-title">rejectsworld.re — 80×24</span>
           <span class="terminal-x" aria-hidden="true">×</span>
         </div>
         <div class="terminal-output" id="terminalOutput" role="log" aria-live="off">
-          <div class="terminal-line"><span class="terminal-prompt">guest@rejectsworld:~$</span> <span class="terminal-command">nmap</span></div>
+          <div class="terminal-line terminal-accent">REJECT'S WORLD — NETWORK TERMINAL</div>
           <div class="terminal-spacer"></div>
-          <div class="terminal-line terminal-red">Under my control</div>
-          <div class="terminal-spacer"></div>
-          <div class="terminal-line">rejectsworld.re's Nmap 7.95</div>
-          <div class="terminal-spacer"></div>
-          <div class="terminal-line terminal-accent">Starting Nmap 7.95 ( https://nmap.org )</div>
-          <div class="terminal-spacer"></div>
-          <div class="terminal-line">Nmap scan report for rejectsworld.re</div>
-          <div class="terminal-spacer"></div>
-          <div class="terminal-line">Host is up (0.045s latency).</div>
-          <div class="terminal-spacer"></div>
-          <pre class="terminal-ports">PORT      STATE  SERVICE  VERSION
-22/tcp    open   ssh      OpenSSH
-80/tcp    open   http     nginx
-443/tcp   open   https    nginx
-3306/tcp  open   mysql    MySQL
-6379/tcp  open   redis    Redis</pre>
-          <div class="terminal-spacer"></div>
-          <div class="terminal-line terminal-muted">Nmap done: 1 IP address (1 host up) scanned</div>
+          <div class="terminal-line terminal-muted">Type help to see commands.</div>
+          <div class="terminal-line terminal-muted">Live ping uses an external probe. IP location is approximate.</div>
           <div class="terminal-spacer"></div>
         </div>
         <form class="terminal-entry" id="terminalForm" autocomplete="off">
           <label class="terminal-prompt" for="terminalInput">guest@rejectsworld:~$</label>
           <input id="terminalInput" name="command" type="text" maxlength="80"
                  spellcheck="false" autocapitalize="off" autocomplete="off"
-                 aria-label="Enter a demo terminal command" placeholder="type help" />
+                 aria-label="Enter a terminal command" placeholder="type help" />
           <span class="terminal-cursor" aria-hidden="true"></span>
         </form>
+        <div class="terminal-tools" aria-label="Network command shortcuts">
+          <button type="button" class="terminal-tool" data-terminal-example="help">HELP</button>
+          <button type="button" class="terminal-tool" data-terminal-example="ping 1.1.1.1">PING</button>
+          <button type="button" class="terminal-tool" data-terminal-example="iplookup 8.8.8.8">IP LOOKUP</button>
+          <button type="button" class="terminal-tool" data-terminal-example="myip">MY IP</button>
+          <span class="terminal-network-note">LIVE LOOKUPS</span>
+        </div>
       </section>
       <img class="character" src="reject-character.gif" alt="Animated anime character" draggable="false">
     </main>
@@ -343,7 +343,207 @@ body:not(.booting) .music{animation:riseIn .7s .4s both}
   <script src="friends.js"></script>
   <script src="playlist.js"></script>
   <script src="player.js"></script>
-  <script src="terminal.js"></script>
+  <!-- Terminal commands are embedded in this index.html. -->
+  <script>
+    // REJECT'S WORLD — terminal commands, embedded for static GitHub Pages.
+    // Real ping is performed by one public Globalping probe, never by the browser.
+    (() => {
+      'use strict';
+      const terminal = document.getElementById('terminal');
+      const output = document.getElementById('terminalOutput');
+      const form = document.getElementById('terminalForm');
+      const input = document.getElementById('terminalInput');
+      if (!terminal || !output || !form || !input) return;
+
+      const line = (value = '', cls = '') => {
+        const el = document.createElement('div');
+        el.className = 'terminal-line' + (cls ? ' ' + cls : '');
+        el.textContent = String(value);
+        output.appendChild(el);
+        output.scrollTop = output.scrollHeight;
+      };
+      const lines = (value, cls = '') => {
+        String(value).split(/\r?\n/).forEach(part => line(part, cls));
+      };
+      const msg = (s) => line(s, 'terminal-net-info');
+      const fail = (s) => line(s, 'terminal-red');
+      const prompt = (s) => line('guest@rejectsworld:~$ ' + s, 'terminal-accent');
+      const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+      let busy = false;
+      let lastPingTime = 0;
+
+      const asIPv4 = (host) => {
+        if (!/^(\d{1,3}\.){3}\d{1,3}$/.test(host)) return null;
+        const values = host.split('.').map(Number);
+        return values.every(n => n <= 255) ? values : null;
+      };
+      const isPublicIPv4 = (o) => {
+        if (!o) return false;
+        const [a, b, c] = o;
+        if (a === 0 || a === 10 || a === 127 || a >= 224) return false;
+        if (a === 169 && b === 254) return false;
+        if (a === 172 && b >= 16 && b <= 31) return false;
+        if (a === 192 && (b === 168 || (b === 0 && c === 0))) return false;
+        if (a === 100 && b >= 64 && b <= 127) return false;
+        if (a === 198 && (b === 18 || b === 19)) return false;
+        if (a === 192 && b === 0 && c === 2) return false;
+        if (a === 198 && b === 51 && c === 100) return false;
+        if (a === 203 && b === 0 && c === 113) return false;
+        return true;
+      };
+      const hostnameOK = (host) =>
+        host.length <= 253 && host.includes('.') &&
+        host.split('.').every(label => /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/i.test(label)) &&
+        !/\.(?:local|internal|localhost|lan|home|test|invalid|onion)$/i.test(host);
+      const publicTarget = (host) => {
+        const ip = asIPv4(host);
+        return ip ? isPublicIPv4(ip) : !/^\d[\d.]*$/.test(host) && hostnameOK(host);
+      };
+      const ipv6OK = (text) => /^(?:[0-9a-f]*:){2,}[0-9a-f:]*$/i.test(text) &&
+        text.length <= 39 && !/^(?:::1|fc|fd|fe80)/i.test(text);
+      const lookupIPOK = (text) => (asIPv4(text) && isPublicIPv4(asIPv4(text))) || ipv6OK(text);
+
+      async function getJSON(url, options = {}, timeout = 14000) {
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), timeout);
+        try {
+          const response = await fetch(url, {
+            ...options, signal: controller.signal, cache: 'no-store', credentials: 'omit'
+          });
+          if (response.status === 429) throw new Error('API rate limit reached. Try again later.');
+          if (!response.ok) throw new Error('Service returned HTTP ' + response.status);
+          return await response.json();
+        } finally { clearTimeout(timer); }
+      }
+
+      async function realPing(target) {
+        if (!publicTarget(target)) {
+          fail('Usage: ping 1.1.1.1  (or a public hostname like example.com)');
+          return;
+        }
+        if (busy) { fail('A network lookup is already running.'); return; }
+        if (Date.now() - lastPingTime < 6000) { fail('Wait a few seconds before running another ping.'); return; }
+        busy = true;
+        lastPingTime = Date.now();
+        msg('Contacting Globalping for a real ICMP test ...');
+        msg('Note: ping runs from a remote probe, not your own computer.');
+        try {
+          const created = await getJSON('https://api.globalping.io/v1/measurements', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({type:'ping', target, limit:1, measurementOptions:{packets:3}, inProgressUpdates:true})
+          }, 16000);
+          if (!created || typeof created.id !== 'string' || !/^[\w-]{6,100}$/.test(created.id)) {
+            throw new Error('The ping service returned no measurement ID.');
+          }
+          const deadline = Date.now() + 30000;
+          let measurement = null;
+          while (Date.now() < deadline) {
+            await wait(900);
+            measurement = await getJSON('https://api.globalping.io/v1/measurements/' + encodeURIComponent(created.id), {}, 11000);
+            if (measurement.status !== 'in-progress') break;
+          }
+          if (!measurement || measurement.status === 'in-progress') throw new Error('Ping timed out. Try again later.');
+          const entry = Array.isArray(measurement.results) ? measurement.results[0] : null;
+          const result = entry?.result;
+          if (!result) throw new Error('Ping completed without a usable response.');
+          const probe = entry?.probe;
+          const where = [probe?.city, probe?.country].filter(Boolean).join(', ');
+          line('PING ' + target + (where ? '  /  probe: ' + where : '  /  remote probe'), 'terminal-accent');
+          if (typeof result.rawOutput === 'string' && result.rawOutput.trim()) {
+            lines(result.rawOutput.trim().slice(0, 2200));
+          } else if (result.stats) {
+            const s = result.stats;
+            line('Average RTT: ' + (s.avg ?? s.average ?? 'n/a') + ' ms');
+            line('Packet loss: ' + (s.loss ?? 'n/a'));
+          } else {
+            msg('Probe status: ' + (result.status || 'unknown'));
+          }
+          if (result.status && result.status !== 'finished' && result.status !== 'success')
+            msg('Probe reported: ' + result.status);
+        } catch (err) {
+          fail('Ping unavailable: ' + (err.name === 'AbortError' ? 'request timed out' : err.message));
+        } finally { busy = false; line(''); }
+      }
+
+      async function ipLookup(address) {
+        if (busy) { fail('A network lookup is already running.'); return; }
+        if (address && !lookupIPOK(address)) {
+          fail('Usage: iplookup 8.8.8.8  (a public IPv4 or IPv6 address)');
+          return;
+        }
+        busy = true;
+        msg(address ? 'Looking up ' + address + ' ...' : 'Looking up your public IP ...');
+        try {
+          const data = await getJSON('https://ipwho.is/' + (address ? encodeURIComponent(address) : ''), {}, 12000);
+          if (data.success !== true) throw new Error(data.message || 'Location lookup failed');
+          line('PUBLIC IP: ' + (data.ip || address || 'unknown'), 'terminal-accent');
+          line('Country: ' + (data.country || 'Unknown'));
+          line('Region:  ' + (data.region || 'Unknown'));
+          line('City:    ' + (data.city || 'Unknown'));
+          line('ISP:     ' + (data.connection?.isp || data.connection?.org || 'Unknown'));
+          line('Timezone: ' + (data.timezone?.id || 'Unknown'));
+          msg('Location is approximate, not a home address.');
+        } catch (err) {
+          fail('IP lookup unavailable: ' + (err.name === 'AbortError' ? 'request timed out' : err.message));
+        } finally { busy = false; line(''); }
+      }
+
+      const help = () => {
+        line('COMMAND DIRECTORY', 'terminal-accent');
+        line('help                 list commands');
+        line('ping 1.1.1.1         real remote-probe ICMP test');
+        line('iplookup 8.8.8.8     approximate IP geolocation');
+        line('geoip 8.8.8.8        same as iplookup');
+        line('myip                 show your public IP and region');
+        line('nmap                 decorative mock scan (not live)');
+        line('whoami / date / about / clear');
+      };
+      const demoNmap = () => {
+        line('DISPLAY DEMO — NOT A REAL NETWORK SCAN', 'terminal-red');
+        line('PORT      STATE  SERVICE');
+        line('22/tcp    open   ssh');
+        line('80/tcp    open   http');
+        line('443/tcp   open   https');
+        msg('No scan was performed.');
+      };
+      const handle = async (raw) => {
+        const [command, ...args] = raw.trim().split(/\s+/);
+        const action = command.toLowerCase();
+        const arg = args.join(' ');
+        if (!raw.trim()) return;
+        prompt(raw);
+        if (action === 'help') { help(); line(''); }
+        else if (action === 'ping') { await realPing(arg); }
+        else if (['iplookup','geoip','locate','ip'].includes(action)) { await ipLookup(arg); }
+        else if (action === 'myip') { await ipLookup(''); }
+        else if (action === 'nmap') { demoNmap(); line(''); }
+        else if (action === 'whoami') { line('guest@rejectsworld'); line(''); }
+        else if (action === 'date') { line(new Date().toLocaleString()); line(''); }
+        else if (action === 'about') { line("REJECT'S WORLD — HTML/CSS/JS terminal with network API tools"); line(''); }
+        else if (action === 'clear') { output.replaceChildren(); }
+        else { fail('command not found: ' + command + '  (type help)'); line(''); }
+      };
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const raw = input.value.trim();
+        if (!raw) return;
+        input.value = '';
+        void handle(raw);
+      });
+      terminal.addEventListener('click', (event) => {
+        if (event.target.closest('input,button,a')) return;
+        if (window.getSelection()?.toString()) return;
+        input.focus();
+      });
+      terminal.querySelectorAll('[data-terminal-example]').forEach(button => {
+        button.addEventListener('click', () => {
+          input.value = button.getAttribute('data-terminal-example') || '';
+          input.focus();
+        });
+      });
+    })();
+  </script>
   <script>
     'use strict';
     // Intro animation: quick boot log, then reveal the full homepage.
@@ -391,7 +591,7 @@ body:not(.booting) .music{animation:riseIn .7s .4s both}
       timers.push(setTimeout(finish,reducedMotion?500:2900));
     })();
 
-    // The terminal is custom HTML/CSS; terminal.js handles its demo commands.
+    // Network terminal commands are embedded above for static-site compatibility.
 
     const validId=id=>/^\d{17,22}$/.test(String(id||''));
     const friendNav=document.getElementById('friends');
