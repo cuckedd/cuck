@@ -14,6 +14,12 @@
  *
  * Optional: cover: "covers/first-song.jpg"
  */
+
 window.REJECT_PLAYLIST = [
-  // { title: "My Song", artist: "Pinkpantheress", src: "songs/attracted to you.mp3" },
+  {
+    title: "Attracted To You",
+    artist: "PinkPantheress",
+    src: "songs/attracted to you.mp3"
+  }
 ];
+
