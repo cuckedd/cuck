@@ -21,4 +21,11 @@ window.REJECT_PLAYLIST = [
     artist: "PinkPantheress",
     src: "songs/attractedtoyou.mp3"
   }
+  
+window.REJECT_PLAYLIST = [
+  {
+      title: "GT x TimmyT - Overleven",
+    artist: "GT",
+    src: "songs/Overleven.mp3"
+  }
 ];
