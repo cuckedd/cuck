@@ -28,9 +28,9 @@ window.REJECT_PLAYLIST = [
     src: "songs/Overleven.mp3"
   },
   {
-    title: "Derde Liedje",
-    artist: "Artiest 3",
-    src: "songs/song3.mp3"
+    title: "Just Your Doll",
+    artist: "Snow Strippers",
+    src: "songs/justyourdoll.mp3"
   }
 ];
 
