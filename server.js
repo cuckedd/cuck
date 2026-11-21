@@ -4,6 +4,45 @@
  * IP-adressen worden alleen tijdelijk gebruikt voor de VPNAPI-check.
  * Naar Discord gaat een GEMASKEERD IP-adres, nooit het volledige IP.
  */
+
+async function sendVisitorLog(req) {
+  const ip = req.ip || "";
+
+  const maskedIP = ip.includes(".")
+    ? ip.replace(/\.\d+$/, ".xxx")
+    : "IPv6 (masked)";
+
+  const webhook = process.env.DISCORD_WEBHOOK_URL;
+
+  const response = await fetch(webhook, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      embeds: [{
+        title: "REJECT'S WORLD | Visitor Log",
+        color: 0xc85b70,
+        fields: [
+          {
+            name: "IP Address",
+            value: maskedIP
+          },
+          {
+            name: "Website",
+            value: "cuck.mom"
+          }
+        ],
+        timestamp: new Date().toISOString()
+      }]
+    })
+  });
+
+  if (!response.ok) {
+    throw new Error(`Discord error: ${response.status}`);
+  }
+}
+
 'use strict';
 require('dotenv').config();
 const express = require('express');
