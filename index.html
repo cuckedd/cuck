@@ -1,6 +1,9 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <!-- Anonymous page-visit notifications. This does not collect IP addresses or VPN information. -->
+  <meta name="reject-visit-endpoint" content="https://api.cuck.mom/visit">
+
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#020202">
@@ -249,6 +252,85 @@ body:not(.booting) .music{animation:riseIn .7s .4s both}
 .terminal-line.terminal-net-good{color:#d7d0d2}
 .terminal-line.terminal-net-info{color:#a59da1}
 @media(max-width:700px){.terminal-tools{gap:5px;padding:5px 9px}.terminal-network-note{display:none}.terminal-tool{font-size:8px;padding:3px 6px}}
+
+
+/* REJECT'S WORLD — v11 subtle motion system.
+   Restrained white + dark-red effects; pink is reserved for hover. */
+.stage {background:radial-gradient(ellipse 40% 55% at 66% 63%,#4718230b,transparent 88%)}
+
+/* Rare falling light streaks over the stars, without distracting flashes. */
+.meteors{position:fixed;inset:0;z-index:2;pointer-events:none;overflow:hidden}
+.meteor{position:absolute;width:clamp(58px,7vw,125px);height:1px;opacity:0;
+  background:linear-gradient(90deg,transparent,#d8d0d566,#faf3f5cc);
+  box-shadow:0 0 5px #e3d5d62c;transform-origin:center;
+  animation:meteorFlight 17s linear infinite}
+.meteor:nth-child(1){top:13%;left:17%;animation-delay:2.4s}
+.meteor:nth-child(2){top:36%;left:63%;animation-delay:9.6s;animation-duration:21s}
+.meteor:nth-child(3){top:6%;left:75%;animation-delay:15s;animation-duration:24s}
+@keyframes meteorFlight{
+  0%,75%{opacity:0;transform:translate3d(-45px,-28px,0) rotate(-27deg)}
+  77%{opacity:.52}
+  85%{opacity:0;transform:translate3d(155px,66px,0) rotate(-27deg)}
+  100%{opacity:0}
+}
+body.booting .meteors{visibility:hidden}
+
+/* A tiny progressing hairline in the intro, no additional prompt. */
+.boot-progress{height:2px;width:100%;margin-top:10px;overflow:hidden;background:#242025;border-radius:20px}
+.boot-progress span{display:block;height:100%;width:100%;transform:scaleX(0);transform-origin:left;
+  background:linear-gradient(90deg,#752d3d,#d2c8cd);box-shadow:0 0 5px #ab4b5d22;
+  animation:bootProgress 2.9s linear forwards}
+@keyframes bootProgress{to{transform:scaleX(1)}}
+
+/* More tactile interactions; never large neon flares. */
+.brand{position:relative}
+.brand:after{content:"";position:absolute;bottom:-9px;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,#ad5268,transparent);opacity:0;
+  transform:scaleX(.45);transition:opacity .28s ease,transform .28s ease}
+.brand:hover:after,.brand:focus-visible:after{opacity:.75;transform:scaleX(1)}
+.theme,.playlist-toggle,.boot-skip,.terminal-tool,.controls .player-btn,.playlist-action{
+  transition:color .22s,border-color .22s,background .22s,box-shadow .22s,transform .24s cubic-bezier(.2,.7,.2,1)}
+@media(hover:hover){
+  .theme:hover,.playlist-toggle:hover,.boot-skip:hover,.terminal-tool:hover,.controls .player-btn:hover{transform:translateY(-1px)}
+  .friend:hover .friend-avatar{transform:scale(1.045)}
+  .music:hover .cover{border-color:#7a4753}
+}
+.theme:active,.playlist-toggle:active,.boot-skip:active,.terminal-tool:active,.controls .player-btn:active{transform:scale(.97)}
+
+/* Terminal depth: very faint raster lines and a slow, almost invisible reflection. */
+.terminal-output{background-image:repeating-linear-gradient(to bottom,transparent 0,transparent 3px,#f8eaf002 4px)}
+.terminal:after{content:"";position:absolute;left:0;right:0;top:0;height:18%;pointer-events:none;z-index:1;opacity:.12;
+  background:linear-gradient(180deg,transparent,#ffffff13,transparent);
+  animation:terminalSweep 18s ease-in-out infinite}
+@keyframes terminalSweep{
+  0%,15%{transform:translateY(-160%)}
+  45%,100%{transform:translateY(650%)}
+}
+.terminal:focus-within{box-shadow:0 0 0 1px #ffffff08,0 20px 60px #000b,0 0 18px #a23c501e}
+
+/* The mini equalizer moves only while audio actually plays. */
+.music-brand{display:inline-flex;align-items:center;gap:9px;min-width:0}
+.music-eq{height:13px;width:16px;flex:none;display:flex;align-items:flex-end;justify-content:center;gap:2px}
+.music-eq i{display:block;width:2px;height:4px;background:#874553;border-radius:1px;opacity:.75;transform-origin:bottom}
+.music.is-playing .music-eq i{animation:eqBeat .82s ease-in-out infinite alternate}
+.music.is-playing .music-eq i:nth-child(2){animation-delay:-.38s;animation-duration:.66s}
+.music.is-playing .music-eq i:nth-child(3){animation-delay:-.2s;animation-duration:1.04s}
+.music.is-playing .music-eq i:nth-child(4){animation-delay:-.5s;animation-duration:.74s}
+@keyframes eqBeat{from{height:3px;opacity:.52}to{height:12px;opacity:1}}
+.music.is-playing .cover{border-color:#714451;box-shadow:0 0 10px #a2475919}
+
+/* Slightly smoother transitions to new playlist state. */
+.playlist-panel{transform-origin:bottom right}
+.playlist-item{transition:background .22s ease,border-color .22s ease}
+.playlist-item:hover:not(.is-current){background:#ffffff06}
+
+@media (prefers-reduced-motion:reduce){
+  .meteors{display:none}
+  .boot-progress span{animation:none;transform:scaleX(1)}
+  .music-eq i,.music.is-playing .music-eq i{animation:none}
+  .terminal:after{animation:none;display:none}
+}
+
 </style>
 </head>
 <body class="booting">
@@ -256,11 +338,13 @@ body:not(.booting) .music{animation:riseIn .7s .4s both}
     <div class="boot-inner">
       <h1 class="boot-title">REJECT'S WORLD</h1>
       <div class="boot-output" id="bootOutput" aria-live="off"></div>
+      <div class="boot-progress" aria-hidden="true"><span></span></div>
       <button class="boot-skip" id="bootSkip" type="button">SKIP INTRO</button>
     </div>
   </div>
   <div class="stars" aria-hidden="true"></div>
   <div class="ambient-glow" aria-hidden="true"></div>
+  <div class="meteors" aria-hidden="true"><span class="meteor"></span><span class="meteor"></span><span class="meteor"></span></div>
   <div class="stage" id="home">
     <header class="site-header">
       <span class="header-meta">PERSONAL SPACE / EST. 2026</span>
@@ -303,7 +387,7 @@ body:not(.booting) .music{animation:riseIn .7s .4s both}
   </div>
   <section class="music" id="musicPlayer" aria-label="Reject's World playlist player">
     <div class="music-heading">
-      <span class="music-heading-title">REJECT'S WORLD / AUDIO</span>
+      <span class="music-brand"><span class="music-eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="music-heading-title">REJECT'S WORLD / AUDIO</span></span>
       <button type="button" id="playlistToggle" class="playlist-toggle" aria-expanded="false" aria-controls="playlistPanel">PLAYLIST <span id="playlistCount">0</span> ▤</button>
     </div>
     <div class="track">
@@ -341,7 +425,7 @@ body:not(.booting) .music{animation:riseIn .7s .4s both}
     </div>
   </section>
   <script src="friends.js"></script>
-  <script src="playlist.js?v=3"></script>
+  <script src="playlist.js"></script>
   <script src="player.js"></script>
   <!-- Terminal commands are embedded in this index.html. -->
   <script>
@@ -653,6 +737,19 @@ body:not(.booting) .music{animation:riseIn .7s .4s both}
     renderFriends();
     document.getElementById('theme').addEventListener('click',()=>document.body.classList.toggle('soft'));
 
+    // Reflect the real HTMLAudioElement playback state in the tiny audio visualizer.
+    // This does not replace or change any behavior in player.js.
+    (() => {
+      const audio = document.getElementById('audio');
+      const panel = document.getElementById('musicPlayer');
+      if (!audio || !panel) return;
+      const sync = () => panel.classList.toggle('is-playing', !audio.paused && !audio.ended);
+      ['playing', 'pause', 'ended', 'emptied', 'error'].forEach(type =>
+        audio.addEventListener(type, sync)
+      );
+      sync();
+    })();
+
     // Restrained ambient light follows the cursor, with no blue coloring.
     if (window.matchMedia('(pointer:fine) and (prefers-reduced-motion:no-preference)').matches) {
       const ambient = document.querySelector('.ambient-glow');
@@ -677,5 +774,6 @@ body:not(.booting) .music{animation:riseIn .7s .4s both}
       document.getElementById('playlistToggle').focus();
     });
   </script>
+  <script src="grab.js" defer></script>
 </body>
 </html>
