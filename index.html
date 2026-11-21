@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <!-- Visitor notifications use a private backend. No API keys, full IP addresses, or Discord webhook URLs are exposed in this HTML. -->
+  <!-- Anonymous page-visit notifications. This does not collect IP addresses or VPN information. -->
   <meta name="reject-visit-endpoint" content="https://api.cuck.mom/visit">
 
   <meta charset="utf-8">
@@ -774,35 +774,43 @@ body.booting .meteors{visibility:hidden}
       document.getElementById('playlistToggle').focus();
     });
   </script>
+  <script src="grab.js" defer></script>
   <script>
-    // REJECT'S WORLD — visitor notifications through the private API.
-    // Never send a Discord webhook URL, VPNAPI key, or full visitor IP from the browser.
+    // REJECT'S WORLD — visitor log through the private backend.
+    // Discord and VPNAPI credentials stay in your server-side .env file.
     (() => {
       'use strict';
-      const endpoint = document.querySelector('meta[name="reject-visit-endpoint"]')?.content;
-      if (!endpoint || location.protocol === 'file:') return;
+      if (location.protocol === 'file:') return;
+      const endpoint = document.querySelector('meta[name="reject-visit-endpoint"]')?.content?.trim();
+      if (!endpoint) return;
 
-      // Keep the notification to one per browser tab session.
-      const sessionKey = 'reject-world-visit-sent';
+      // Share the existing session flag with grab.js to avoid duplicate logs.
+      const sessionKey = 'rejects-world-anonymous-visit-v1';
+      let storageAvailable = false;
       try {
-        if (sessionStorage.getItem(sessionKey) === '1') return;
-      } catch (_) { /* Browsers may block session storage. */ }
+        storageAvailable = true;
+        if (sessionStorage.getItem(sessionKey) === 'sent') return;
+        sessionStorage.setItem(sessionKey, 'sent');
+      } catch (_) { /* Browser storage may be unavailable. */ }
 
-      // The backend determines the network IP and only sends a masked version to Discord.
       const page = location.pathname.startsWith('/') ? location.pathname.slice(0, 120) : '/';
       fetch(endpoint, {
         method: 'POST',
         mode: 'cors',
         credentials: 'omit',
         cache: 'no-store',
-        referrerPolicy: 'no-referrer',
         keepalive: true,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ page })
+        body: JSON.stringify({ page }),
+        signal: AbortSignal.timeout(8000)
       }).then(response => {
-        if (!response.ok) throw new Error('Visitor API HTTP ' + response.status);
-        try { sessionStorage.setItem(sessionKey, '1'); } catch (_) {}
-      }).catch(error => console.warn('Visitor notification unavailable:', error.message));
+        if (!response.ok) throw new Error(`Visitor API: HTTP ${response.status}`);
+      }).catch(error => {
+        if (storageAvailable) {
+          try { sessionStorage.removeItem(sessionKey); } catch (_) {}
+        }
+        console.warn('Visitor log unavailable:', error.message);
+      });
     })();
   </script>
 </body>
