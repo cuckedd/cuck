@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <!-- Anonymous page-visit notifications. This does not collect IP addresses or VPN information. -->
+  <!-- Visitor notifications use a private backend. No API keys, full IP addresses, or Discord webhook URLs are exposed in this HTML. -->
   <meta name="reject-visit-endpoint" content="https://api.cuck.mom/visit">
 
   <meta charset="utf-8">
@@ -774,6 +774,36 @@ body.booting .meteors{visibility:hidden}
       document.getElementById('playlistToggle').focus();
     });
   </script>
-  <script src="grab.js" defer></script>
+  <script>
+    // REJECT'S WORLD — visitor notifications through the private API.
+    // Never send a Discord webhook URL, VPNAPI key, or full visitor IP from the browser.
+    (() => {
+      'use strict';
+      const endpoint = document.querySelector('meta[name="reject-visit-endpoint"]')?.content;
+      if (!endpoint || location.protocol === 'file:') return;
+
+      // Keep the notification to one per browser tab session.
+      const sessionKey = 'reject-world-visit-sent';
+      try {
+        if (sessionStorage.getItem(sessionKey) === '1') return;
+      } catch (_) { /* Browsers may block session storage. */ }
+
+      // The backend determines the network IP and only sends a masked version to Discord.
+      const page = location.pathname.startsWith('/') ? location.pathname.slice(0, 120) : '/';
+      fetch(endpoint, {
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'omit',
+        cache: 'no-store',
+        referrerPolicy: 'no-referrer',
+        keepalive: true,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ page })
+      }).then(response => {
+        if (!response.ok) throw new Error('Visitor API HTTP ' + response.status);
+        try { sessionStorage.setItem(sessionKey, '1'); } catch (_) {}
+      }).catch(error => console.warn('Visitor notification unavailable:', error.message));
+    })();
+  </script>
 </body>
 </html>
